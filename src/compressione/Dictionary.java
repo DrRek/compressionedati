@@ -36,7 +36,7 @@ public class Dictionary{
                 }
                 else
                     currentList.add(p);
-                
+                    //TODO: verificare che non ci siano collisioni
                 k++;
             }
             is.close();
