@@ -20,12 +20,38 @@ public class MMTable{
         Mismatch temp;
         for(int i=0; i<table.size(); i++){
             
-            if((temp=table.get(i)).equals(mm)){
-                return i;
+            if((temp=table.get(i)).equals(mm)){                
                 table.remove(i);
                 table.add(0, temp);
+                return i;
             }
         }
+        return -1;
+    }
+
+    public int findSameDelta(byte[] d){
+        Mismatch temp;
+        for(int i=0; i<table.size(); i++){            
+            if((temp=table.get(i)).getDelta().equals(d)){                
+                table.remove(i);
+                table.add(0, temp);
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public int findSameDelta(Mismatch mm){
+        Mismatch temp;
+        for(int i=0; i<table.size(); i++){            
+            if((temp=table.get(i)).hasSameDelta(mm)){                
+                table.remove(i);
+                table.add(0, temp);
+                return i;
+            }
+        }
+        
         return -1;
     }
 
