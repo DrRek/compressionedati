@@ -9,27 +9,35 @@ import java.io.IOException;
 
 public class Dictionary{
 
-    private Map<String, List<String>> dict;
+    private Map<String, List<BlockPointer>> dict;
     private int c;
 
-    public Dictionary(int c){
+    public Dictionary(int c, String file){
         this.c = c;
-        this.dict = new HashMap<String, List<String>>();
+        this.dict = new HashMap<String, List<BlockPointer>>();
+        this.addFile(file);
     }
 
-    public void addFile(String filename){
+    private void addFile(String filename){
         try{
             byte[] b = new byte[this.c];
             InputStream is = new FileInputStream(filename+".reference");
             
+            int k=0;
             int readBytes = 0;
             while((readBytes  = is.read(b)) != -1){
                 String currentBlock = new String(Arrays.copyOfRange(b, 0, readBytes));
-                List<String> currentList = this.dict.getOrDefault(currentBlock, new ArrayList<String>());
-
-                //TODO: all posto di "asd" ci deve andare qualcosa che mi permetta di avere un puntatore a quel punto del file
-                currentList.add("asd");
-                this.dict.put(currentBlock, currentList);
+                BlockPointer p=new BlockPointer(k*c, false);
+                List<BlockPointer> currentList = this.dict.getOrDefault(currentBlock, null);
+                if(currentList==null){
+                    currentList=new  ArrayList<BlockPointer>();
+                    currentList.add(p);
+                    this.dict.put(currentBlock, currentList);
+                }
+                else
+                    currentList.add(p);
+                
+                k++;
             }
             is.close();
 
@@ -38,13 +46,29 @@ public class Dictionary{
         }
     }
 
+    public List<Pointer> getPointers(String block){
+        return dict.getOrDefault(block, null);
+    }
+
+    public void put(String block, BlockPointer p){
+        List<BlockPointer> list = this.dict.getOrDefault(currentBlock, null);
+        if(list==null){
+            list=new  ArrayList<BlockPointer>();
+            list.add(p);
+            this.dict.put(currentBlock,list);
+        }
+        else
+            list.add(p);
+    }
+
+    //da aggiustare
     @Override
     public String toString(){
         String out = "";
         for (String key: this.dict.keySet()) {
             out+=key+"->\n[";
-            List<String> currentList = this.dict.get(key);
-            for(String item: currentList){
+            List<BlockPointer> currentList = this.dict.get(key);
+            for(BlockPointer item: currentList){
                 out+=" \""+item+"\" ";
             }
             out+="]\n";
