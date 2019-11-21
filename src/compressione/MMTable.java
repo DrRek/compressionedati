@@ -1,6 +1,6 @@
 package compressione;
 
-import java.util.ArrayList.*;
+import java.util.*;
 
 public class MMTable{
     private ArrayList<Mismatch> table;

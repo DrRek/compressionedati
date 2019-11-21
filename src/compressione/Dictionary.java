@@ -46,16 +46,16 @@ public class Dictionary{
         }
     }
 
-    public List<Pointer> getPointers(String block){
+    public List<BlockPointer> getPointers(String block){
         return dict.getOrDefault(block, null);
     }
 
     public void put(String block, BlockPointer p){
-        List<BlockPointer> list = this.dict.getOrDefault(currentBlock, null);
+        List<BlockPointer> list = this.dict.getOrDefault(block, null);
         if(list==null){
             list=new  ArrayList<BlockPointer>();
             list.add(p);
-            this.dict.put(currentBlock,list);
+            this.dict.put(block, list);
         }
         else
             list.add(p);

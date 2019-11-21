@@ -1,10 +1,10 @@
 package compressione;
 
-public class Pointer{
+public class BlockPointer{
     private long offset;
     private Boolean file;
 
-    public Pointer(long off, Boolean f){
+    public BlockPointer(long off, Boolean f){
         this.offset=off;
         this.file=f;
     }

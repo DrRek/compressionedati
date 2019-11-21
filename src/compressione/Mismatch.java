@@ -3,12 +3,15 @@ package compressione;
 public class Mismatch{
     private byte[] ref;
     private byte[] tar;
-    private byte[] delta;
+    private short[] delta;
 
     public Mismatch(byte[] r, byte[] t){
         this.ref=r;
         this.tar=t;
-        this.delta=0; //TODO: dobbiamo capire come fare la differenza
+        this.delta = new short[r.length];
+        for(int i = 0; i<r.length; i++){
+            this.delta[i] = t[i] - r[i];
+        }
     }
 
     public byte[] getRef(){
@@ -24,7 +27,7 @@ public class Mismatch{
     }
 
     public Boolean equals(Mismatch mm){
-        if(this.ref.equals(mm.ref)&&this.tar.equals(mm.tar)) 
+        if(this.ref.equals(mm.ref) && this.tar.equals(mm.tar)) 
             return true;
 
         else return false;
