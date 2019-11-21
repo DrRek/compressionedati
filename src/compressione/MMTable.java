@@ -55,6 +55,30 @@ public class MMTable{
         return -1;
     }
 
+    public byte[] findSameRef(Mismatch mm){
+        Mismatch temp;
+        for(int i=0; i<table.size(); i++){            
+            if((temp=table.get(i)).hasSameRef(mm.getRef())){                
+                table.remove(i);
+                table.add(0, temp);
+                return temp.getRef();
+            }
+        }
+
+        return -1;
+    }
+
+    public Boolean isUnique(byte[] ref){
+        int t=0;
+        String r=new String(ref);
+        for(int i=0; i<table.size(); i++){   
+            if(new String(table.get(i).getRef()).equals(r))
+                t++;
+            if(t>1)
+                return false;
+        }  
+        return true;
+    }
 
 
 }
