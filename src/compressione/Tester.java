@@ -10,8 +10,7 @@ public class Tester {
         }
 
         String filename = "test_files/test";
-        Dictionary dict = new Dictionary(c);
-        dict.addFile(filename);
+        Dictionary dict = new Dictionary(c, filename);
 
         System.out.println("dizionario\n"+dict);
     }

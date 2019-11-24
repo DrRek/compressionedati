@@ -9,34 +9,35 @@ import java.io.IOException;
 
 public class Dictionary{
 
-    private Map<String, List<Long>> dict;
-    private List<String> blocks;
+    private Map<String, List<BlockPointer>> dict;
     private int c;
 
-    public Dictionary(int c){
+    public Dictionary(int c, String file){
         this.c = c;
-        this.dict = new HashMap<String, List<Long>>();
-        this.blocks = new ArrayList<String>();
+        this.dict = new HashMap<String, List<BlockPointer>>();
+        this.addFile(file);
     }
 
-    public void addFile(String filename){
+    private void addFile(String filename){
         try{
             byte[] b = new byte[this.c];
             RandomAccessFile is = new RandomAccessFile(new File(filename+".reference"), "r");
             
+            int k=0;
             int readBytes = 0;
             while((readBytes  = is.read(b)) != -1){
                 String currentBlock = new String(Arrays.copyOfRange(b, 0, readBytes));
-
-                List<Long> currentList = this.dict.get(currentBlock);
-                if(currentList == null){
-                    //in questo caso è un blocco nuovo e lo devo aggiungere alla array di blocks
-                    this.blocks.add(currentBlock);
-                    currentList = new ArrayList<Long>();
+                BlockPointer p=new BlockPointer(k*c, false);
+                List<BlockPointer> currentList = this.dict.getOrDefault(currentBlock, null);
+                if(currentList==null){
+                    currentList=new  ArrayList<BlockPointer>();
+                    currentList.add(p);
+                    this.dict.put(currentBlock, currentList);
                 }
-
-                currentList.add(is.getFilePointer() - readBytes);
-                this.dict.put(currentBlock, currentList);
+                else
+                    currentList.add(p);
+                    //TODO: verificare che non ci siano collisioni
+                k++;
             }
             is.close();
 
@@ -45,24 +46,29 @@ public class Dictionary{
         }
     }
 
-    public String getBlockFromIf(int id){
-        return this.blocks.get(id);
+    public List<BlockPointer> getPointers(String block){
+        return dict.getOrDefault(block, null);
     }
 
-    public int getIdFromBlock(String block){
-        for(int i=0; i<this.blocks.size(); i++)
-            if(this.blocks.get(i).equals(block))
-                return i;
-        return -1;
+    public void put(String block, BlockPointer p){
+        List<BlockPointer> list = this.dict.getOrDefault(block, null);
+        if(list==null){
+            list=new  ArrayList<BlockPointer>();
+            list.add(p);
+            this.dict.put(block, list);
+        }
+        else
+            list.add(p);
     }
 
+    //da aggiustare
     @Override
     public String toString(){
         String out = "";
         for (String key: this.dict.keySet()) {
             out+=key+"->\n[";
-            List<Long> currentList = this.dict.get(key);
-            for(long item: currentList){
+            List<BlockPointer> currentList = this.dict.get(key);
+            for(BlockPointer item: currentList){
                 out+=" \""+item+"\" ";
             }
             out+="]\n\n";
