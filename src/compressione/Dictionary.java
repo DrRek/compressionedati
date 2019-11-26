@@ -21,7 +21,7 @@ public class Dictionary{
     private void addFile(String filename){
         try{
             byte[] b = new byte[this.c];
-            RandomAccessFile is = new RandomAccessFile(new File(filename+".reference"), "r");
+            RandomAccessFile is = new RandomAccessFile(new File(filename), "r");
             
             int k=0;
             int readBytes = 0;

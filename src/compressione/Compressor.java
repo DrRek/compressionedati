@@ -7,18 +7,21 @@ public class Compressor {
     private Dictionary dict;
     private RandomAccessFile tar;
     private File out;
-    private int c;
-    private String bufferToSetEncode;
+    private int c, mmlen;
+    private String bufferToSetEncode, refName, tarName;
 
-    public Compressor(int c, String ref, String tar, String out) throws FileNotFoundException{
+    public Compressor(int c, int mmlen, String ref, String tar, String out) throws FileNotFoundException{
         this.dict = new Dictionary(c, ref);
         this.tar = new RandomAccessFile(new File(tar), "r");
         this.out = new File(out);
         this.c = c;
         this.bufferToSetEncode = "";
+        this.mmlen = mmlen;
+        this.refName = ref;
+        this.tarName = tar;
     }
 
-    public boolean run(){
+    public boolean run() throws FileNotFoundException{
         long currentPos = 0;
         String currentBlock;
 
@@ -30,7 +33,7 @@ public class Compressor {
             }
 
             List<BlockPointer> possibleMatches = this.dict.getPointersForBlock(currentBlock);
-            Match bestMatch = getBestMatch(possibleMatches);
+            Match bestMatch = getBestMatch(currentPos, possibleMatches);
             if(bestMatch == null){
                 this.bufferToSetEncode += currentBlock.charAt(0);
                 ++currentPos;
@@ -46,12 +49,86 @@ public class Compressor {
     }
 
     //Dovrà automaticamente fare l'encoding anche dei missmatch
-    public Match getBestMatch(List<BlockPointer> list){
-        if(list == null)
+    public Match getBestMatch(long pos, List<BlockPointer> list) throws FileNotFoundException{
+        if(list == null || list.size() < 1)
             return null;
 
-        System.out.println("getBestMatch() still to implement");
-        return null;
+        Match optimalMatch = null, tempMatch;
+        for(BlockPointer ptr : list){
+            tempMatch = getMatch(pos, ptr);
+
+            if(optimalMatch != null && tempMatch != null && optimalMatch.getCost() > tempMatch.getCost())
+                optimalMatch = tempMatch;
+        }
+        return optimalMatch;
+    }
+
+    public Match getMatch(long pos, BlockPointer ptr) throws FileNotFoundException{
+        int missmatchesCounter = 0;
+
+        RandomAccessFile source, destination = new RandomAccessFile(new File(this.tarName), "r");
+        if(ptr.isReference()){
+            source = new RandomAccessFile(new File(this.refName), "r");
+        } else {
+            source = new RandomAccessFile(new File(this.tarName), "r");
+        }
+
+        boolean cont = true;
+        int iterator = 0;
+        Match resultMatch = new Match();
+        String currentSourceMissmatch = "";
+        String currentDestinationMissmatch = "";
+        try {
+
+            source.seek(pos+this.c);
+            destination.seek(pos+this.c);
+
+            do{
+                byte sb = source.readByte(); //catch EOF and IOEx
+                byte tb = destination.readByte();
+
+                if(sb == tb){
+                    //se i caratteri sono uguali
+                    if(currentSourceMissmatch.length() > 0){
+                        //TODO: E' terminato il missmatch di prima e devo aggiungerlo al match
+                        resultMatch.addMissmatch(iterator, currentSourceMissmatch, currentDestinationMissmatch);
+                        System.out.println("missmatch : "+currentSourceMissmatch+" "+currentDestinationMissmatch);
+
+                        //Riinizializzo i missmatch
+                        currentSourceMissmatch="";
+                        currentDestinationMissmatch="";
+                    }
+                } else{
+                    //se i caratteri sono diversi
+                    if(currentSourceMissmatch.length() < 1){
+                        //Se è un nuovo missmmatch
+                        currentSourceMissmatch=Byte.toString(sb)+"";
+                        currentDestinationMissmatch=Byte.toString(tb)+"";
+                    } else {
+                        //E' il continuo di un missmatch che ho già controllato
+                        currentSourceMissmatch+=sb;
+                        currentDestinationMissmatch+=tb;
+                    }
+
+                    if(currentSourceMissmatch.length() > this.mmlen){
+                        cont = false;
+                    }
+                }
+
+                
+                ++iterator;
+            } while(cont);
+        } catch (EOFException eofe){
+            return resultMatch;
+        } catch (IOException ioe){
+            System.out.println("getMatch of Compressor has thrown IOException");
+            ioe.printStackTrace();
+            return resultMatch;
+        }
+        
+
+        return resultMatch;
+
     }
 
     public void encodeMatch(Match m){
