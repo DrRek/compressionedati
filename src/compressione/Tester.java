@@ -9,9 +9,22 @@ public class Tester {
             c = Integer.parseInt(args[0]);
         }
 
-        String filename = "test_files/test";
-        Dictionary dict = new Dictionary(c, filename);
+        String filenameReference = "test_files/test.reference";
+        String filenameTarget = "test_files/test.target";
+        String filenameCompressed = "test_files/test.compressed";
+        String filenameDecompressed = "test_files/test.decompressed";
 
-        System.out.println("dizionario\n"+dict);
+        Compressor compressor = new Compressor(c, filenameReference, filenameTarget, filenameCompressed);
+
+        Decompressor decompressor = new Decompressor(c, filenameReference, filenameCompressed, filenameDecompressed);
+
+        if(!compressor.run()){
+            System.out.println("Error while compressing");
+            System.exit(1);
+        }
+        if(!decompressor.run()){
+            System.out.println("Error while decompressing");
+            System.exit(1);
+        }
     }
 }
