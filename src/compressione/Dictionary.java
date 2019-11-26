@@ -62,10 +62,10 @@ public class Dictionary{
     }
 
     public List<BlockPointer> getPointersForBlock(String block){
-        return this.dict.getOrDefault(block, null)
+        return this.dict.getOrDefault(block, null);
     }
 
-    //da aggiustare
+    /*TODO: da aggiustare
     @Override
     public String toString(){
         String out = "";
@@ -84,5 +84,5 @@ public class Dictionary{
         }
         out+="]\n\n";
         return out;
-    }
+    }*/
 }
