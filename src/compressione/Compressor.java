@@ -64,8 +64,6 @@ public class Compressor {
     }
 
     public Match getMatch(long pos, BlockPointer ptr) throws FileNotFoundException{
-        int missmatchesCounter = 0;
-
         RandomAccessFile source, destination = new RandomAccessFile(new File(this.tarName), "r");
         if(ptr.isReference()){
             source = new RandomAccessFile(new File(this.refName), "r");
@@ -76,8 +74,8 @@ public class Compressor {
         boolean cont = true;
         int iterator = 0;
         Match resultMatch = new Match();
-        String currentSourceMissmatch = "";
-        String currentDestinationMissmatch = "";
+        List<Byte> currentSourceMissmatch = new ArrayList<Byte>();
+        List<Byte> currentDestinationMissmatch = new ArrayList<Byte>();
         try {
 
             source.seek(pos+this.c);
@@ -89,33 +87,24 @@ public class Compressor {
 
                 if(sb == tb){
                     //se i caratteri sono uguali
-                    if(currentSourceMissmatch.length() > 0){
+                    if(currentSourceMissmatch.size() > 0){
                         //TODO: E' terminato il missmatch di prima e devo aggiungerlo al match
                         resultMatch.addMissmatch(iterator, currentSourceMissmatch, currentDestinationMissmatch);
                         System.out.println("missmatch : "+currentSourceMissmatch+" "+currentDestinationMissmatch);
 
                         //Riinizializzo i missmatch
-                        currentSourceMissmatch="";
-                        currentDestinationMissmatch="";
+                        currentSourceMissmatch = new ArrayList<Byte>();
+                        currentDestinationMissmatch = new ArrayList<Byte>();
                     }
                 } else{
                     //se i caratteri sono diversi
-                    if(currentSourceMissmatch.length() < 1){
-                        //Se è un nuovo missmmatch
-                        currentSourceMissmatch=Byte.toString(sb)+"";
-                        currentDestinationMissmatch=Byte.toString(tb)+"";
-                    } else {
-                        //E' il continuo di un missmatch che ho già controllato
-                        currentSourceMissmatch+=sb;
-                        currentDestinationMissmatch+=tb;
-                    }
+                    currentSourceMissmatch.add(sb);
+                    currentDestinationMissmatch.add(tb);
 
-                    if(currentSourceMissmatch.length() > this.mmlen){
+                    if(currentSourceMissmatch.size() > this.mmlen){
                         cont = false;
                     }
                 }
-
-                
                 ++iterator;
             } while(cont);
         } catch (EOFException eofe){
@@ -125,10 +114,8 @@ public class Compressor {
             ioe.printStackTrace();
             return resultMatch;
         }
-        
 
         return resultMatch;
-
     }
 
     public void encodeMatch(Match m){
@@ -141,9 +128,11 @@ public class Compressor {
         System.out.println("encodeSet() still to implement");
     }
 
-    public void encodeSetFromBuffer(){
-        encodeSet(this.bufferToSetEncode);
-        this.bufferToSetEncode = "";
+    public void encodeSetFromBuffer() {
+        if (!this.bufferToSetEncode.equals("")) {
+            encodeSet(this.bufferToSetEncode);
+            this.bufferToSetEncode = "";
+        }
     }
 
     public String readFromPos(long pos){

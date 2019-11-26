@@ -1,5 +1,7 @@
 package compressione;
 
+import java.util.List;
+
 public class Match{
     private int dictIndex;
     private long matchLength;
@@ -20,7 +22,7 @@ public class Match{
         return 1;
     }
 
-    public void addMissmatch(int position, String ref, String tar){
+    public void addMissmatch(int position, List<Byte> ref, List<Byte> tar){
         System.out.println("addMissmatch in Match needs to be implemented");
     }
 
