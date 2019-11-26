@@ -61,6 +61,10 @@ public class Dictionary{
             list.add(p);
     }
 
+    public List<BlockPointer> getPointersForBlock(String block){
+        return this.dict.getOrDefault(block, null)
+    }
+
     //da aggiustare
     @Override
     public String toString(){
