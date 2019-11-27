@@ -1,11 +1,12 @@
 package compressione;
 
 public class Mismatch{
-    private byte[] ref;
-    private byte[] tar;
+    private ArrayList<Byte> ref;
+    private ArrayList<Byte> tar;
     private short[] delta;
+    private long position;
 
-    public Mismatch(byte[] r, byte[] t){
+    public Mismatch(ArrayList<Byte> r, ArrayList<Byte> t){
         this.ref=r;
         this.tar=t;
         this.delta = new short[r.length];
@@ -15,11 +16,22 @@ public class Mismatch{
         }
     }
 
-    public byte[] getRef(){
+    public Mismatch(long pos, ArrayList<Byte> r, ArrayList<Byte> t){
+        this.ref=r;
+        this.tar=t;
+        this.position=pos;
+        this.delta = new short[r.length];
+        for(int i = 0; i<r.length; i++){
+            System.out.println("Ricordati di riscrivere la class Mismatch che attualmente non va bene!");
+            //this.delta[i] = t[i] - r[i];
+        }
+    }
+
+    public ArrayList<Byte> getRef(){
         return this.ref;
     }
 
-    public byte[] getTar(){
+    public ArrayList<Byte> getTar(){
         return this.tar;
     }
 

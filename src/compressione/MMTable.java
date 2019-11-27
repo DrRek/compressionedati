@@ -29,7 +29,7 @@ public class MMTable{
         return -1;
     }
 
-    public int findSameDelta(byte[] d){
+    public int findSameDelta(short[] d){
         Mismatch temp;
         for(int i=0; i<table.size(); i++){            
             if((temp=table.get(i)).getDelta().equals(d)){                

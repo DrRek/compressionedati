@@ -9,6 +9,7 @@ public class Compressor {
     private File out;
     private int c, mmlen;
     private String bufferToSetEncode, refName, tarName;
+    private MMTable[] mismatchTables;
 
     public Compressor(int c, int mmlen, String ref, String tar, String out) throws FileNotFoundException{
         this.dict = new Dictionary(c, ref);
@@ -19,6 +20,11 @@ public class Compressor {
         this.mmlen = mmlen;
         this.refName = ref;
         this.tarName = tar;
+
+        this.mismatchTables=new MMTable[this.mmlen];
+        for(int i=0; i<this.mmlen; i++){
+            this.mismatchTables[i]=new MMTable();
+        }
     }
 
     public boolean run() throws FileNotFoundException{
@@ -63,6 +69,7 @@ public class Compressor {
         return optimalMatch;
     }
 
+    
     public Match getMatch(long pos, BlockPointer ptr) throws FileNotFoundException{
         RandomAccessFile source, destination = new RandomAccessFile(new File(this.tarName), "r");
         if(ptr.isReference()){
@@ -89,13 +96,16 @@ public class Compressor {
                     //se i caratteri sono uguali
                     if(currentSourceMissmatch.size() > 0){
                         //TODO: E' terminato il missmatch di prima e devo aggiungerlo al match
-                        resultMatch.addMissmatch(iterator, currentSourceMissmatch, currentDestinationMissmatch);
+
+                        //bisogna decidere se passare il puntatore assoluto nel file (pos+iterator*8) o lasciarlo relativo rispetto alla posizione di inizio match
+                        resultMatch.addMissmatch(iterator*8, currentSourceMissmatch, currentDestinationMissmatch);
                         System.out.println("missmatch : "+currentSourceMissmatch+" "+currentDestinationMissmatch);
 
                         //Riinizializzo i missmatch
                         currentSourceMissmatch = new ArrayList<Byte>();
                         currentDestinationMissmatch = new ArrayList<Byte>();
                     }
+                    resultMatch.increaseLen(1);
                 } else{
                     //se i caratteri sono diversi
                     currentSourceMissmatch.add(sb);
@@ -132,6 +142,13 @@ public class Compressor {
         if (!this.bufferToSetEncode.equals("")) {
             encodeSet(this.bufferToSetEncode);
             this.bufferToSetEncode = "";
+        }
+    }
+
+    private void storeMismatch(int len, ArrayList<Byte> ref_pattern, ArrayList<Byte> tar_pattern){
+        Mismatch mm=new Mismatch(ref_pattern, tar_pattern);
+        if(mismatchTables[len].find(mm)<0){
+            mismatchTables[len].push(mm);
         }
     }
 
