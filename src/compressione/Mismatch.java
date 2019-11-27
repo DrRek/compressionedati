@@ -10,7 +10,8 @@ public class Mismatch{
         this.tar=t;
         this.delta = new short[r.length];
         for(int i = 0; i<r.length; i++){
-            this.delta[i] = t[i] - r[i];
+            System.out.println("Ricordati di riscrivere la class Mismatch che attualmente non va bene!");
+            //this.delta[i] = t[i] - r[i];
         }
     }
 
@@ -22,7 +23,7 @@ public class Mismatch{
         return this.tar;
     }
 
-    public byte[] getDelta(){
+    public short[] getDelta(){
         return this.delta;
     }
 

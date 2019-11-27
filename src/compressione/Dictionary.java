@@ -1,8 +1,8 @@
 package compressione;
 
 import java.util.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class Dictionary{
     private void addFile(String filename){
         try{
             byte[] b = new byte[this.c];
-            InputStream is = new FileInputStream(filename+".reference");
+            RandomAccessFile is = new RandomAccessFile(new File(filename), "r");
             
             int k=0;
             int readBytes = 0;
@@ -61,7 +61,11 @@ public class Dictionary{
             list.add(p);
     }
 
-    //da aggiustare
+    public List<BlockPointer> getPointersForBlock(String block){
+        return this.dict.getOrDefault(block, null);
+    }
+
+    /*TODO: da aggiustare
     @Override
     public String toString(){
         String out = "";
@@ -71,8 +75,14 @@ public class Dictionary{
             for(BlockPointer item: currentList){
                 out+=" \""+item+"\" ";
             }
-            out+="]\n";
+            out+="]\n\n";
         }
+
+        out+="Blocks: [";
+        for(String block: this.blocks){
+            out+= " "+block+" ";
+        }
+        out+="]\n\n";
         return out;
-    }
+    }*/
 }
