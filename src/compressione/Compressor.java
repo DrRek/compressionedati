@@ -10,10 +10,9 @@ public class Compressor {
     private int c, mmlen;
     private String bufferToSetEncode, refName, tarName;
     private MMTable[] mismatchTables;
-    private Object writeLock;
     private FileWriter out_writer;
 
-    public Compressor(int c, int mmlen, String ref, String tar, String out) throws FileNotFoundException{
+    public Compressor(int c, int mmlen, String ref, String tar, String out) throws FileNotFoundException, IOException{
         this.dict = new Dictionary(c, ref);
         this.tar = new RandomAccessFile(new File(tar), "r");
         this.out = new File(out);
@@ -23,7 +22,6 @@ public class Compressor {
         this.mmlen = mmlen;
         this.refName = ref;
         this.tarName = tar;
-        this.writeLock=new Object();
 
         this.mismatchTables=new MMTable[this.mmlen];
         for(int i=0; i<this.mmlen; i++){
@@ -89,7 +87,7 @@ public class Compressor {
         List<Byte> currentDestinationMissmatch = new ArrayList<Byte>();
         try {
 
-            source.seek(pos+this.c);
+            source.seek(ptr.getOffset()+this.c);
             destination.seek(pos+this.c);
 
             do{
@@ -138,16 +136,16 @@ public class Compressor {
         int index;
         for(Mismatch mm: m.getMismatches()){
             //se il mismatch è contenuto nella cache
-            if((index=mismatchTables[mm.getRef().length-1].find(mm))>=0){
+            if((index=mismatchTables[mm.getRef().size()-1].find(mm))>=0){
                 //se esiste un'unica entry nella cache per mm.ref
-                if(mismatchTables[mm.getRef().length-1].hasUnique(mm.getRef())){
+                if(mismatchTables[mm.getRef().size()-1].hasUnique(mm.getRef())){
                     //codifico solamente la entry ref
-                    enc+="m,"+mm.getRef+"\n";
+                    enc+="m,"+mm.getRef()+"\n";
                 } //altrimenti devo aggiungere alla codifica anche l'indice del mismatch
                 else enc+="m,"+mm.getRef()+","+index+"\n";                
             } 
             //se ce n'è uno che ha lo stesso delta codifico solo l'indice
-            else if((index=mismatchTables[mm.getRef().length-1].findSameDelta(mm))>=0){
+            else if((index=mismatchTables[mm.getRef().size()-1].findSameDelta(mm))>=0){
                 enc+="m,"+index+"\n";
                 this.storeMismatch(mm);
             } 
@@ -158,9 +156,7 @@ public class Compressor {
             }
         }
         try{
-            synchronized(writeLock){
-                out_writer.append(enc);
-            }
+            out_writer.append(enc);
         } catch(IOException e){
             System.out.println("IOException in Compressor.encodeMatch()");
         }
@@ -168,9 +164,7 @@ public class Compressor {
 
     private void encodeSet(String s){
         try{
-            synchronized(writeLock){
-                out_writer.append("s,"+s.length()+","+s+"\n");
-            }
+            out_writer.append("s,"+s.length()+","+s+"\n");
         } catch(IOException e){
             System.out.println("IOException in Compressor.encodeSet()");
         }
@@ -184,7 +178,7 @@ public class Compressor {
     }
 
     private void storeMismatch(Mismatch mm){
-        int len=mm.getRef().length;
+        int len = mm.getRef().size();
 
         //len-1 perchè non ci saranno mismatch di lunghezza 0 
         if(mismatchTables[len-1].find(mm)<0){

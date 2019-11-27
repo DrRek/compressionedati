@@ -1,37 +1,40 @@
 package compressione;
 
+import java.util.*;
+import java.io.*;
+
 public class Mismatch{
-    private ArrayList<Byte> ref;
-    private ArrayList<Byte> tar;
+    private List<Byte> ref;
+    private List<Byte> tar;
     private short[] delta;
     private long position;
 
-    public Mismatch(ArrayList<Byte> r, ArrayList<Byte> t){
+    public Mismatch(List<Byte> r, List<Byte> t){
         this.ref=r;
         this.tar=t;
-        this.delta = new short[r.length];
-        for(int i = 0; i<r.length; i++){
+        this.delta = new short[r.size()];
+        for(int i = 0; i<r.size(); i++){
             System.out.println("Ricordati di riscrivere la class Mismatch che attualmente non va bene!");
             //this.delta[i] = t[i] - r[i];
         }
     }
 
-    public Mismatch(long pos, ArrayList<Byte> r, ArrayList<Byte> t){
+    public Mismatch(long pos, List<Byte> r, List<Byte> t){
         this.ref=r;
         this.tar=t;
         this.position=pos;
-        this.delta = new short[r.length];
-        for(int i = 0; i<r.length; i++){
+        this.delta = new short[r.size()];
+        for(int i = 0; i<r.size(); i++){
             System.out.println("Ricordati di riscrivere la class Mismatch che attualmente non va bene!");
             //this.delta[i] = t[i] - r[i];
         }
     }
 
-    public ArrayList<Byte> getRef(){
+    public List<Byte> getRef(){
         return this.ref;
     }
 
-    public ArrayList<Byte> getTar(){
+    public List<Byte> getTar(){
         return this.tar;
     }
 
@@ -54,14 +57,14 @@ public class Mismatch{
     }
 
     //potrebbe non servire
-    public Boolean hasSameRef(byte[] r){
+    public Boolean hasSameRef(List<Byte> r){
         if(this.ref.equals(r))
             return true;
 
         else return false;
     }
 
-    public static String patternToString(ArrayList<Byte> pattern){
+    public static String patternToString(List<Byte> pattern){
         String out="";
         for(Byte b:pattern){
             out+=(char) b.byteValue();

@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 public class Tester {
-    public static void main(String args[]) throws FileNotFoundException{
+    public static void main(String args[]) throws FileNotFoundException, IOException{
 
         //Number of bytes that will correspond to length of the blocks pointed by the dict.
         int c = 4;

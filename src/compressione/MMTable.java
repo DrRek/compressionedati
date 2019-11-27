@@ -55,7 +55,7 @@ public class MMTable{
         return -1;
     }
 
-    public byte[] findSameRef(Mismatch mm){
+    public List<Byte> findSameRef(Mismatch mm){
         Mismatch temp;
         for(int i=0; i<table.size(); i++){            
             if((temp=table.get(i)).hasSameRef(mm.getRef())){                
@@ -65,15 +65,14 @@ public class MMTable{
             }
         }
 
-        return -1;
+        return null;
     }
 
     public Boolean hasUnique(List<Byte> ref){
         //Precondition: la lista contiene almeno una entry per ref
         int t=0;
-        String r=new String(ref);
         for(int i=0; i<table.size(); i++){   
-            if(new String(table.get(i).getRef()).equals(r))
+            if(table.get(i).getRef().equals(ref))
                 t++;
             if(t>1)
                 return false;
