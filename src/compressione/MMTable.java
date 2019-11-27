@@ -68,7 +68,8 @@ public class MMTable{
         return -1;
     }
 
-    public Boolean isUnique(byte[] ref){
+    public Boolean hasUnique(List<Byte> ref){
+        //Precondition: la lista contiene almeno una entry per ref
         int t=0;
         String r=new String(ref);
         for(int i=0; i<table.size(); i++){   

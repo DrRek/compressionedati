@@ -22,8 +22,8 @@ public class Match{
         return this.matchLength;
     }
 
-    public void increaseLen(int len){
-        this.matchLength+=len;
+    public void increaseLen(){
+        this.matchLength++;
     }
 
     public double getCost(){
@@ -32,13 +32,16 @@ public class Match{
         //probabilmente non necessario, Java ritorna +infinito alle divisioni per 0
         if(this.matchLength==0)
             throw new Exception("Errore in Match.getCost(): provata divisione per 0");
-            
+
         return (this.mismatches.length/this.matchLength);
+    }
+
+    public ArrayList<Mismatch> getMismatches(){
+        return this.mismatches;
     }
 
     public void addMissmatch(int position, List<Byte> ref, List<Byte> tar){
         //System.out.println("addMissmatch in Match needs to be implemented");
-        this.increaseLen(ref.length);
         this.mismatches.put(new Mismatch(position, ref, tar));
     }
 

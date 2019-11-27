@@ -60,4 +60,12 @@ public class Mismatch{
 
         else return false;
     }
+
+    public static String patternToString(ArrayList<Byte> pattern){
+        String out="";
+        for(Byte b:pattern){
+            out+=(char) b.byteValue();
+        }
+        return out;
+    }
 }
