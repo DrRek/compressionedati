@@ -3,25 +3,28 @@ package compressione;
 import java.util.*;
 import java.io.*;
 
-public class Compressor {
+@SuppressWarnings("StringConcatenationInLoop")
+class Compressor {
     private Dictionary dict;
-    private RandomAccessFile tar;
-    private File out;
+    //there are cases in which the getMatch function requires to have two instance of two RandomAccessFile of the same file, instead of opening a new file for each getMatch invocation i've
+    //preferred to add another copy of the obj to the method instance. That's a bit dirty, but eventually much more efficient.
+    private RandomAccessFile referenceFile, targetFile, targetFileForGetMatch;
+    private FileWriter compressedFileWriter;
     private int c, mmlen;
-    private String bufferToSetEncode, refName, tarName;
+    private String bufferToSetEncode;
     private MMTable[] mismatchTables;
-    private FileWriter out_writer;
 
-    public Compressor(int c, int mmlen, String ref, String tar, String out) throws FileNotFoundException, IOException{
-        this.dict = new Dictionary(c, ref);
-        this.tar = new RandomAccessFile(new File(tar), "r");
-        this.out = new File(out);
-        this.out_writer=new FileWriter(out);
+    Compressor(int c, int mmlen, String referencePath, String targetPath, String compressedFile) throws IOException{
+        this.dict = new Dictionary(c, referencePath);
+
+        this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
+        this.targetFile = new RandomAccessFile(new File(targetPath), "r");
+        this.targetFileForGetMatch = new RandomAccessFile(new File(targetPath), "r");
+        this.compressedFileWriter=new FileWriter(new File(compressedFile));
+
         this.c = c;
-        this.bufferToSetEncode = "";
         this.mmlen = mmlen;
-        this.refName = ref;
-        this.tarName = tar;
+        this.bufferToSetEncode = "";
 
         this.mismatchTables=new MMTable[this.mmlen];
         for(int i=0; i<this.mmlen; i++){
@@ -29,13 +32,13 @@ public class Compressor {
         }
     }
 
-    public boolean run() throws IOException {
+    boolean run() throws IOException {
         long currentPos = 0;
         String currentBlock;
 
         while((currentBlock = readFromPos(currentPos)) != null){
 
-            //If this is true the last block is less than the minimum block, so we'll just encode it
+            //In this case i've reached the end of the file, since the read string is less then c i'll just set encode the ramainings
             if(currentBlock.length() < this.c){
                 this.bufferToSetEncode += currentBlock;
                 encodeSetFromBuffer();
@@ -45,6 +48,7 @@ public class Compressor {
             List<BlockPointer> possibleMatches = this.dict.getPointersForBlock(currentBlock);
             Match bestMatch = getBestMatch(currentPos, possibleMatches);
             if(bestMatch == null){
+                //In this case i haven't found a match, so i'll just set this to be set encoded
                 this.bufferToSetEncode += currentBlock.charAt(0);
                 ++currentPos;
             } else {
@@ -55,12 +59,17 @@ public class Compressor {
             }
         }
 
-        out_writer.close();
-
+        this.closeHandles();
         return true;
     }
 
-    //Dovrà automaticamente fare l'encoding anche dei missmatch
+    private void closeHandles() throws IOException {
+        referenceFile.close();
+        targetFile.close();
+        compressedFileWriter.close();
+        targetFileForGetMatch.close();
+    }
+
     private Match getBestMatch(long pos, List<BlockPointer> list) throws FileNotFoundException{
         if(list == null || list.size() < 1)
             return null;
@@ -77,15 +86,14 @@ public class Compressor {
 
     
     private Match getMatch(long pos, BlockPointer ptr) throws FileNotFoundException{
-        RandomAccessFile source, destination = new RandomAccessFile(new File(this.tarName), "r");
+        RandomAccessFile source, destination = targetFile;
         if(ptr.isReference()){
-            source = new RandomAccessFile(new File(this.refName), "r");
+            source = referenceFile;
         } else {
-            source = new RandomAccessFile(new File(this.tarName), "r");
+            source = targetFileForGetMatch;
         }
 
         boolean cont = true;
-        int iterator = 0;
         Match resultMatch = new Match();
         List<Byte> currentSourceMismatch = new ArrayList<Byte>();
         List<Byte> currentDestinationMismatch = new ArrayList<Byte>();
@@ -94,6 +102,9 @@ public class Compressor {
             source.seek(ptr.getOffset()+this.c);
             destination.seek(pos+this.c);
 
+            //this will be used to remember missmatch location
+            long missmatachStartOffset = 0, currentPosition = 0;
+
             do{
                 byte sb = source.readByte(); //catch EOF and IOEx
                 byte tb = destination.readByte();
@@ -101,28 +112,28 @@ public class Compressor {
                 if(sb == tb){
                     //se i caratteri sono uguali
                     if(currentSourceMismatch.size() > 0){
-                        resultMatch.addMissmatch(iterator, currentSourceMismatch, currentDestinationMismatch);
-                        System.out.println("missmatch : "+currentSourceMismatch+" "+currentDestinationMismatch);
+                        resultMatch.addMissmatch(currentSourceMismatch, currentDestinationMismatch, missmatachStartOffset);
 
-                        //Riinizializzo i missmatch
-                        currentSourceMismatch = new ArrayList<Byte>();
-                        currentDestinationMismatch = new ArrayList<Byte>();
+                        //Riinizializzo i missmatch dopo aver salvato l'ultimo
+                        currentSourceMismatch = new ArrayList<>();
+                        currentDestinationMismatch = new ArrayList<>();
                     }
                     resultMatch.increaseLen();
-                } else{
-                    //se i caratteri sono diversi
+                } else {
+                    //se sono all'inizio del mismatch
+                    if(currentSourceMismatch.isEmpty())
+                        missmatachStartOffset = currentPosition;
+
                     currentSourceMismatch.add(sb);
                     currentDestinationMismatch.add(tb);
 
-                    if(currentSourceMismatch.size() > this.mmlen){
+                    if (currentSourceMismatch.size() > this.mmlen) {
                         cont = false;
                     }
                 }
-                ++iterator;
-            } while(cont);
 
-            source.close();
-            destination.close();
+                ++currentPosition;
+            } while(cont);
 
         } catch (EOFException eofe){
             return resultMatch;
@@ -135,58 +146,54 @@ public class Compressor {
         return resultMatch;
     }
 
-    private void encodeMatch(Match m){
+    /*
+    Matches will be encoded as follow <c><dict_index><,><match_length>
+    example c1,10   from dict[1] pointer copy c+10 bytes
+    */
+    private void encodeMatch(Match m) throws IOException {
         String enc="c"+m.getDictIndex()+","+m.getMatchLength();
-        int index;
+        compressedFileWriter.write(enc);
         for(Mismatch mm: m.getMismatches()){
+            encodeMismatch(mm);
             //se il mismatch è contenuto nella cache
-            if((index=mismatchTables[mm.getRef().size()-1].find(mm))>=0){
-                //se esiste un'unica entry nella cache per mm.ref
-                if(mismatchTables[mm.getRef().size()-1].hasUnique(mm.getRef())){
-                    //codifico solamente la entry ref
-                    enc+="m,"+mm.getRef()+"\n";
-                } //altrimenti devo aggiungere alla codifica anche l'indice del mismatch
-                else enc+="m,"+mm.getRef()+","+index+"\n";                
-            } 
-            //se ce n'è uno che ha lo stesso delta codifico solo l'indice
-            else if((index=mismatchTables[mm.getRef().size()-1].findSameDelta(mm))>=0){
-                enc+="m,"+index+"\n";
-                this.storeMismatch(mm);
-            } 
-            //altrimenti devo codificare tutto 
-            else{
-                enc+="m,"+Mismatch.patternToString(mm.getRef())+","+Mismatch.patternToString(mm.getTar())+"\n";
-                this.storeMismatch(mm);
-            }
-        }
-        try{
-            out_writer.append(enc);
-        } catch(IOException e){
-            System.out.println("IOException in Compressor.encodeMatch()");
+
         }
     }
 
-    private void encodeSet(String s){
-        try{
-            out_writer.append("s,"+s.length()+","+s+"\n");
-        } catch(IOException e){
-            System.out.println("IOException in Compressor.encodeSet()");
+    /*
+    There are 3 possible types of missmatch
+    A missmatch will always be encoded with it's position and i't number of bytes
+    if refs and tgts are equals for a row and no other row has same ref then sample message will be <m><offset><,><bytes_n>
+    if entry with same delta is found then <m><offset><,><bytes_n><,><row_index>
+    else <m><offset><,><bytes_n><,><delta>
+    */
+    private void encodeMismatch(Mismatch mm) throws IOException {
+        MMTable relevantTable = mismatchTables[mm.getRef().size() -1];
+        int cacheLookupRes = relevantTable.searchAndUpdate(mm);
+        String encodedMessage = "m"+mm.getOffset()+","+mm.getRef().size();
+        if(cacheLookupRes == MMTable.PERFECT_HIT){
+            compressedFileWriter.write(encodedMessage);
+        }else if(cacheLookupRes == MMTable.NO_HIT){
+            System.out.println("encodedMissmatch in compressor, sistemare il getDelta in modo che restisca qualcosa di decente");
+            encodedMessage += ","+mm.getDelta();
+            compressedFileWriter.write(encodedMessage);
+        } else {
+            encodedMessage += ","+cacheLookupRes;
+            compressedFileWriter.write(encodedMessage);
         }
     }
 
-    private void encodeSetFromBuffer() {
+    /*
+    A set message will be composed as this: <s><message_len><,><message>
+    */
+    private void encodeSet(String s) throws IOException {
+        compressedFileWriter.write("s"+s.length()+","+s+"\n");
+    }
+
+    private void encodeSetFromBuffer() throws IOException {
         if (!this.bufferToSetEncode.equals("")) {
             encodeSet(this.bufferToSetEncode);
             this.bufferToSetEncode = "";
-        }
-    }
-
-    private void storeMismatch(Mismatch mm){
-        int len = mm.getRef().size();
-
-        //len-1 perchè non ci saranno mismatch di lunghezza 0 
-        if(mismatchTables[len-1].find(mm)<0){
-            mismatchTables[len-1].push(mm);
         }
     }
 
@@ -194,7 +201,7 @@ public class Compressor {
         byte[] b = new byte[this.c];
 
         try{
-            this.tar.seek(pos);
+            this.targetFile.seek(pos);
         } catch (IOException ioe){
             System.out.println("Error in readFromPos while seeking for position, maybe this means that i've reached the end of the file.");
             ioe.printStackTrace();
@@ -202,7 +209,7 @@ public class Compressor {
         }
 
         try{
-            int readBytes = this.tar.read(b);
+            int readBytes = this.targetFile.read(b);
             if(readBytes < 0){
                 //EOF reached
                 return null;

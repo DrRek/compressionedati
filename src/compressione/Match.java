@@ -27,6 +27,7 @@ public class Match{
     }
 
     public double getCost(){
+        System.out.println("RICORDATI CHE DEVI ANCORA IMPLEMENTARE LA FUNZIONE DI COSTO CAZZ");
         if(this.matchLength == 0)
             return Long.MAX_VALUE;
         return this.mismatches.size() / this.matchLength;
@@ -36,9 +37,8 @@ public class Match{
         return this.mismatches;
     }
 
-    public void addMissmatch(int position, List<Byte> ref, List<Byte> tar){
-        //System.out.println("addMissmatch in Match needs to be implemented");
-        this.mismatches.add(new Mismatch(position, ref, tar));
+    public void addMissmatch(List<Byte> ref, List<Byte> tar, long offset){
+        this.mismatches.add(new Mismatch(ref, tar, offset));
         this.matchLength += ref.size();
     }
 
