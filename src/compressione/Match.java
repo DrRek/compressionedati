@@ -39,6 +39,10 @@ public class Match{
     public void addMissmatch(int position, List<Byte> ref, List<Byte> tar){
         //System.out.println("addMissmatch in Match needs to be implemented");
         this.mismatches.add(new Mismatch(position, ref, tar));
+        this.matchLength += ref.size();
     }
 
+    public long getDictIndex(){
+        return dictIndex;
+    }
 }

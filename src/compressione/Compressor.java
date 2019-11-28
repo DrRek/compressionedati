@@ -29,7 +29,7 @@ public class Compressor {
         }
     }
 
-    public boolean run() throws FileNotFoundException{
+    public boolean run() throws IOException {
         long currentPos = 0;
         String currentBlock;
 
@@ -37,7 +37,9 @@ public class Compressor {
 
             //If this is true the last block is less than the minimum block, so we'll just encode it
             if(currentBlock.length() < this.c){
-                encodeSet(currentBlock);
+                this.bufferToSetEncode += currentBlock;
+                encodeSetFromBuffer();
+                break;
             }
 
             List<BlockPointer> possibleMatches = this.dict.getPointersForBlock(currentBlock);
@@ -47,11 +49,13 @@ public class Compressor {
                 ++currentPos;
             } else {
                 encodeSetFromBuffer();
-                encodeMatch(bestMatch, currentPos);
+                encodeMatch(bestMatch);
 
-                currentPos += bestMatch.getMatchLength();
+                currentPos += bestMatch.getMatchLength()+c;
             }
         }
+
+        out_writer.close();
 
         return true;
     }
@@ -65,7 +69,7 @@ public class Compressor {
         for(BlockPointer ptr : list){
             tempMatch = getMatch(pos, ptr);
 
-            if(optimalMatch != null && tempMatch != null && optimalMatch.getCost() > tempMatch.getCost())
+            if(optimalMatch == null || (tempMatch != null && optimalMatch.getCost() > tempMatch.getCost()))
                 optimalMatch = tempMatch;
         }
         return optimalMatch;
@@ -83,8 +87,8 @@ public class Compressor {
         boolean cont = true;
         int iterator = 0;
         Match resultMatch = new Match();
-        List<Byte> currentSourceMissmatch = new ArrayList<Byte>();
-        List<Byte> currentDestinationMissmatch = new ArrayList<Byte>();
+        List<Byte> currentSourceMismatch = new ArrayList<Byte>();
+        List<Byte> currentDestinationMismatch = new ArrayList<Byte>();
         try {
 
             source.seek(ptr.getOffset()+this.c);
@@ -96,29 +100,30 @@ public class Compressor {
 
                 if(sb == tb){
                     //se i caratteri sono uguali
-                    if(currentSourceMissmatch.size() > 0){
-                        //TODO: E' terminato il missmatch di prima e devo aggiungerlo al match
-
-                        //bisogna decidere se passare il puntatore assoluto nel file (pos+iterator*8) o lasciarlo relativo rispetto alla posizione di inizio match
-                        resultMatch.addMissmatch(iterator*8, currentSourceMissmatch, currentDestinationMissmatch);
-                        System.out.println("missmatch : "+currentSourceMissmatch+" "+currentDestinationMissmatch);
+                    if(currentSourceMismatch.size() > 0){
+                        resultMatch.addMissmatch(iterator, currentSourceMismatch, currentDestinationMismatch);
+                        System.out.println("missmatch : "+currentSourceMismatch+" "+currentDestinationMismatch);
 
                         //Riinizializzo i missmatch
-                        currentSourceMissmatch = new ArrayList<Byte>();
-                        currentDestinationMissmatch = new ArrayList<Byte>();
+                        currentSourceMismatch = new ArrayList<Byte>();
+                        currentDestinationMismatch = new ArrayList<Byte>();
                     }
                     resultMatch.increaseLen();
                 } else{
                     //se i caratteri sono diversi
-                    currentSourceMissmatch.add(sb);
-                    currentDestinationMissmatch.add(tb);
+                    currentSourceMismatch.add(sb);
+                    currentDestinationMismatch.add(tb);
 
-                    if(currentSourceMissmatch.size() > this.mmlen){
+                    if(currentSourceMismatch.size() > this.mmlen){
                         cont = false;
                     }
                 }
                 ++iterator;
             } while(cont);
+
+            source.close();
+            destination.close();
+
         } catch (EOFException eofe){
             return resultMatch;
         } catch (IOException ioe){
@@ -130,9 +135,8 @@ public class Compressor {
         return resultMatch;
     }
 
-    private void encodeMatch(Match m, long position){
-        String enc="c,"+m.getMatchLength()+","+position+"\n";
-        Mismatch foundMismatch;
+    private void encodeMatch(Match m){
+        String enc="c"+m.getDictIndex()+","+m.getMatchLength();
         int index;
         for(Mismatch mm: m.getMismatches()){
             //se il mismatch è contenuto nella cache
