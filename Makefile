@@ -1,5 +1,5 @@
 run:
-	java -cp out/production/compressionedati/ compressione.Tester ${c}
+	java -cp out/production/compressionedati/ compressione.Tester ${c} ${src}
 compile:
 	javac -d out/production/compressionedati/ src/compressione/*.java
 cr:
@@ -8,7 +8,10 @@ cr:
 compilelzma:
 	javac -cp src/ -d out/production/ src/SevenZip/*.java
 runlzma:
-	java -cp out/production/ SevenZip.Tester
+	java -cp out/production/ SevenZip.Tester ${src}
 lzma:
 	make compilelzma
-	make runlzma	
+	make runlzma
+all:
+	make cr
+	make lzma

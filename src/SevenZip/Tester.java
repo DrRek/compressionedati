@@ -26,14 +26,18 @@ public class Tester{
 	public static int MatchFinder = 1;
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("\nLZMA (Java) 4.61  2008-11-23\n");
+		String name = "test.compressed";
+
+		if(args.length > 0){
+			name = args[0]+".compressed";
+		}
 		
         //END OF STRING: DA PROVARE ENTRAMBI
 		boolean eos = false;
 
         //Start test compression
-        File inFile = new File("test_files/source.in");                                            
-        File outFile = new File("test_files/compressed.out");
+		File inFile = new File("test_files/"+name);
+		File outFile = new File("test_files/"+name+".7z");
                                                                                                  
 	    BufferedInputStream inStream  = new BufferedInputStream(new FileInputStream(inFile));      
         BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(outFile)); 
@@ -62,8 +66,8 @@ public class Tester{
 
 
         //Start test decompression
-        inFile = new File("test_files/compressed.out");       
-        outFile = new File("test_files/decompressed.out");
+        inFile = new File("test_files/"+name+".7z");
+        outFile = new File("test_files/"+name+".7z.decompressed");
 
         inStream  = new BufferedInputStream(new FileInputStream(inFile));      
         outStream = new BufferedOutputStream(new FileOutputStream(outFile)); 

@@ -8,16 +8,19 @@ public class Tester {
 
         //Number of bytes that will correspond to length of the blocks pointed by the dict.
         int c = 4;
-        if(args.length > 0){
+        String name = "test";
+        if(args.length > 1){
             c = Integer.parseInt(args[0]);
+            name = args[1];
         }
+
 
         int mmlen = 4;
 
-        String filenameReference = "test_files/test.reference";
-        String filenameTarget = "test_files/test.target";
-        String filenameCompressed = "test_files/test.compressed";
-        String filenameDecompressed = "test_files/test.decompressed";
+        String filenameReference = "test_files/"+name+".reference";
+        String filenameTarget = "test_files/"+name+".target";
+        String filenameCompressed = "test_files/"+name+".compressed";
+        String filenameDecompressed = "test_files/"+name+".decompressed";
 
         System.out.println("Starting compression");
         System.out.println("\ttarget file :\t" + filenameTarget);
