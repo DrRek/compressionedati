@@ -17,8 +17,7 @@ class Mismatch{
         this.offset = offset;
         this.delta = new short[r.size()];
         for(int i = 0; i<r.size(); i++){
-            System.out.println("BISOGNA GESTIRE I DELTA IN MISMATCH");
-            //this.delta[i] = t[i] - r[i];
+            delta[i] = (short)(r.get(i) - t.get(i));
         }
     }
 
