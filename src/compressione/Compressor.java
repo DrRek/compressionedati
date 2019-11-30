@@ -2,6 +2,7 @@ package compressione;
 
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @SuppressWarnings("StringConcatenationInLoop")
 class Compressor {
@@ -15,7 +16,7 @@ class Compressor {
     private MMTable[] mismatchTables;
 
     Compressor(int c, int mmlen, String referencePath, String targetPath, String compressedFile) throws IOException{
-        this.dict = new Dictionary(c, referencePath);
+        this.dict = new Dictionary(c, referencePath, targetPath);
 
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
         this.targetFile = new RandomAccessFile(new File(targetPath), "r");
@@ -94,7 +95,7 @@ class Compressor {
         }
 
         boolean cont = true;
-        Match resultMatch = new Match();
+        Match resultMatch = new Match(ptr.getDictMapIndex(), ptr.getDictListIndex());
         List<Byte> currentSourceMismatch = new ArrayList<Byte>();
         List<Byte> currentDestinationMismatch = new ArrayList<Byte>();
         try {
@@ -147,17 +148,16 @@ class Compressor {
     }
 
     /*
-    Matches will be encoded as follow <c><dict_index><,><match_length>
+    Matches will be encoded as follow <c><dict_index><,><dic_list_index><,><match_length>
     example c1,10   from dict[1] pointer copy c+10 bytes
     */
     private void encodeMatch(Match m) throws IOException {
-        String enc="c"+m.getDictIndex()+","+m.getMatchLength();
+        String enc="c"+m.getDictMapIndex()+","+m.getDictListIndex()+","+m.getMatchLength();
         compressedFileWriter.write(enc);
         for(Mismatch mm: m.getMismatches()){
             encodeMismatch(mm);
-            //se il mismatch è contenuto nella cache
-
         }
+        dict.addMatch(m);
     }
 
     /*
@@ -190,12 +190,13 @@ class Compressor {
     A set message will be composed as this: <s><message_len><,><message>
     */
     private void encodeSet(String s) throws IOException {
-        compressedFileWriter.write("s"+s.length()+","+s+"\n");
+        compressedFileWriter.write("s"+s.length()+","+s);
     }
 
     private void encodeSetFromBuffer() throws IOException {
         if (!this.bufferToSetEncode.equals("")) {
             encodeSet(this.bufferToSetEncode);
+            dict.addString(this.bufferToSetEncode);
             this.bufferToSetEncode = "";
         }
     }
@@ -224,5 +225,9 @@ class Compressor {
             ioe.printStackTrace();
             return null;
         }
+    }
+
+    Dictionary getDictionary(){
+        return dict;
     }
 }

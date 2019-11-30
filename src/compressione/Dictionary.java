@@ -1,21 +1,25 @@
 package compressione;
 
+import java.io.*;
 import java.util.*;
-import java.io.File;
-import java.io.RandomAccessFile;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
 
-public class Dictionary{
+class Dictionary{
 
+    List<String> blocks;
     private Map<String, List<BlockPointer>> dict;
     private int c;
+    private String buffer;
+    private long bufferPosition;
+    private RandomAccessFile target;
 
-    public Dictionary(int c, String file){
+    Dictionary(int c, String reference, String target) throws FileNotFoundException {
         this.c = c;
-        this.dict = new HashMap<String, List<BlockPointer>>();
-        this.addFile(file);
+        this.dict = new HashMap<>();
+        this.blocks = new ArrayList<>();
+        this.addFile(reference);
+        this.buffer = "";
+        this.bufferPosition = 0;
+        this.target = new RandomAccessFile(new File(target), "r");
     }
 
     private void addFile(String filename){
@@ -23,21 +27,14 @@ public class Dictionary{
             byte[] b = new byte[this.c];
             RandomAccessFile is = new RandomAccessFile(new File(filename), "r");
             
-            int k=0;
+            int numberOfBlocksFound=0;
             int readBytes = 0;
             while((readBytes  = is.read(b)) != -1){
                 String currentBlock = new String(Arrays.copyOfRange(b, 0, readBytes));
-                BlockPointer p=new BlockPointer(k*c, false);
-                List<BlockPointer> currentList = this.dict.getOrDefault(currentBlock, null);
-                if(currentList==null){
-                    currentList=new  ArrayList<BlockPointer>();
-                    currentList.add(p);
-                    this.dict.put(currentBlock, currentList);
-                }
-                else
-                    currentList.add(p);
-                    //TODO: verificare che non ci siano collisioni
-                k++;
+                BlockPointer p = new BlockPointer(numberOfBlocksFound*c, false);
+                addBlock(currentBlock, p);
+
+                numberOfBlocksFound++;
             }
             is.close();
 
@@ -46,43 +43,75 @@ public class Dictionary{
         }
     }
 
-    public List<BlockPointer> getPointers(String block){
-        return dict.getOrDefault(block, null);
+    void addMatch(Match m) throws IOException {
+        target.seek(bufferPosition);
+        byte[] bytes = new byte[(int)m.getMatchLength()+c];
+        target.read(bytes);
+        String toAdd = new String(bytes);
+        buffer+= toAdd;
+        updateFromBuffer();
     }
 
-    public void put(String block, BlockPointer p){
-        List<BlockPointer> list = this.dict.getOrDefault(block, null);
-        if(list==null){
-            list=new  ArrayList<BlockPointer>();
-            list.add(p);
-            this.dict.put(block, list);
+    void addString(String m){
+        buffer += m;
+        updateFromBuffer();
+    }
+
+    private void updateFromBuffer(){
+        while (buffer.length() >= this.c){
+            String current = buffer.substring(0, c);
+            buffer = buffer.substring(c);
+            BlockPointer ptr = new BlockPointer(bufferPosition, true);
+            addBlock(current, ptr);
+            bufferPosition += c;
         }
-        else
-            list.add(p);
     }
 
-    public List<BlockPointer> getPointersForBlock(String block){
-        return this.dict.getOrDefault(block, null);
+    private void addBlock(String block, BlockPointer ptr){
+        List<BlockPointer> currentList = this.dict.getOrDefault(block, null);
+        if(currentList==null){
+            blocks.add(block);
+            ptr.setDictMapIndex(blocks.size()-1);
+            ptr.setDictListIndex(0);
+            currentList=new  ArrayList<>();
+            currentList.add(ptr);
+            this.dict.put(block, currentList);
+        } else {
+            currentList.add(ptr);
+            int dictMapIndex = getIdFromBlock(block);
+            ptr.setDictMapIndex(dictMapIndex);
+            ptr.setDictListIndex(currentList.size() - 1);
+        }
     }
 
-    /*TODO: da aggiustare
     @Override
     public String toString(){
-        String out = "";
-        for (String key: this.dict.keySet()) {
-            out+=key+"->\n[";
-            List<BlockPointer> currentList = this.dict.get(key);
-            for(BlockPointer item: currentList){
-                out+=" \""+item+"\" ";
-            }
-            out+="]\n\n";
-        }
+        StringBuilder ret = new StringBuilder();
+        for(int i = 0; i < blocks.size(); i++){
+            String currBlock = blocks.get(i);
 
-        out+="Blocks: [";
-        for(String block: this.blocks){
-            out+= " "+block+" ";
+            ret.append(i).append(" - ").append(currBlock.replaceAll("\\n","%")).append(" -->\n  ");
+            for(BlockPointer ptr : dict.get(currBlock)){
+                ret.append("<").append(ptr.getOffset()).append(",").append(ptr.isTarget()).append("> ");
+            }
+            ret.append("\n");
         }
-        out+="]\n\n";
-        return out;
-    }*/
+        return ret.toString();
+    }
+
+    int getIdFromBlock(String block){
+        for(int i = 0; i < blocks.size(); i++){
+            if(block.equals(blocks.get(i)))
+                return i;
+        }
+        return -1;
+    }
+
+    String getBlockFromId(int i){
+        return blocks.get(i);
+    }
+
+    List<BlockPointer> getPointersForBlock(String block){
+        return this.dict.getOrDefault(block, null);
+    }
 }

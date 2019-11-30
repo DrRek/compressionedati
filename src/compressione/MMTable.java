@@ -2,12 +2,12 @@ package compressione;
 
 import java.util.*;
 
-public class MMTable{
+class MMTable{
 
-    public static int PERFECT_HIT = -1;
-    public static int NO_HIT = -2;
+    static int PERFECT_HIT = -1;
+    static int NO_HIT = -2;
 
-    private ArrayList<Mismatch> table;
+    private List<Mismatch> table;
     private final static int MAX_SIZE=20;
 
     MMTable(){
@@ -22,26 +22,47 @@ public class MMTable{
 
     int searchAndUpdate(Mismatch mm){
         boolean isPerfectMatchPossible = true;
-        boolean hasFoundFullMatch = false;
-        int bestIndex = -1;
+        int bestIndex = -1, bestFullMatchIndex = -1;
         for(int currentIndex = 0; currentIndex < table.size(); currentIndex++){
             Mismatch curr = table.get(currentIndex);
             if(curr.getRef().equals(mm.getRef())) {
                 if(curr.getTar().equals(mm.getTar())) {
-                    hasFoundFullMatch = true;
+                    bestFullMatchIndex = currentIndex;
                 } else {
                     isPerfectMatchPossible = false;
                 }
             }
 
-            if(curr.getDelta().equals(mm.getDelta())){
+            if(Arrays.equals(curr.getDelta(), mm.getDelta())){
                 bestIndex = currentIndex;
             }
         }
 
-        System.out.println("RICORDATI CHE IN SEARCHANDUPDATE DI MMTABLE BISOGNA AGGIORNARE LA TABELLA NEI VARI CASI");
-        if(hasFoundFullMatch && isPerfectMatchPossible) return MMTable.PERFECT_HIT;
-        if(bestIndex >= 0) return bestIndex;
+        if(isPerfectMatchPossible && bestFullMatchIndex >= 0){
+            updateEntry(bestFullMatchIndex);
+            return MMTable.PERFECT_HIT;
+        }
+        if(bestIndex >= 0){
+            updateEntry(bestIndex);
+            return bestIndex;
+        }
+
+        addEntry(mm);
         return MMTable.NO_HIT;
+    }
+
+    private void updateEntry(int index){
+        Mismatch ele = table.remove(index);
+        table.add(0, ele);
+    }
+
+    private void addEntry(Mismatch mm){
+        table.add(0, mm);
+        removeOldEntries();
+    }
+
+    private void removeOldEntries(){
+        if(table.size() > MMTable.MAX_SIZE)
+            table = table.subList(0, MMTable.MAX_SIZE);
     }
 }

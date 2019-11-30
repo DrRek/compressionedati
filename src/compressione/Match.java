@@ -4,45 +4,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Match{
-    private int dictIndex;
+    private static double MISSMATCH_COST_MULTIPLIER = 1.1;
+    private static int MISSMATCH_LENGTH_COST_MULTIPLIER = 1;
+    private static int MATCH_LENGTH_CONST_MULTIPLIER = 1;
+    private int dictMapIndex;
+    private int dictListIndex;
     private long matchLength;
     private List<Mismatch> mismatches;
+    private double computedCost;
 
-    public Match(){
-        this.mismatches=new ArrayList<Mismatch>();
+    Match(int dictMapIndex, int dictListIndex){
+        this.dictMapIndex = dictMapIndex;
+        this.dictListIndex = dictListIndex;
+        this.mismatches=new ArrayList<>();
+        this.computedCost = Integer.MAX_VALUE;
     }
 
-    public Match(int dictIndex, long matchLength){
-        this.dictIndex=dictIndex;
-        this.matchLength=matchLength;
-        this.mismatches=new ArrayList<Mismatch>();
-    }
-
-    public long getMatchLength(){
+    long getMatchLength(){
         return this.matchLength;
     }
 
-    public void increaseLen(){
+    void increaseLen(){
         this.matchLength++;
     }
 
-    public double getCost(){
-        System.out.println("RICORDATI CHE DEVI ANCORA IMPLEMENTARE LA FUNZIONE DI COSTO CAZZ");
-        if(this.matchLength == 0)
-            return Long.MAX_VALUE;
-        return this.mismatches.size() / this.matchLength;
+    double getCost(){
+        if(computedCost == Integer.MAX_VALUE){
+            computedCost = (matchLength + 1 + mismatches.size() * MISSMATCH_COST_MULTIPLIER) / matchLength + 1;
+        }
+        return computedCost;
     }
 
-    public List<Mismatch> getMismatches(){
+    List<Mismatch> getMismatches(){
         return this.mismatches;
     }
 
-    public void addMissmatch(List<Byte> ref, List<Byte> tar, long offset){
+    void addMissmatch(List<Byte> ref, List<Byte> tar, long offset){
         this.mismatches.add(new Mismatch(ref, tar, offset));
         this.matchLength += ref.size();
     }
 
-    public long getDictIndex(){
-        return dictIndex;
+    int getDictMapIndex(){
+        return dictMapIndex;
+    }
+
+    int getDictListIndex(){
+        return dictListIndex;
     }
 }
