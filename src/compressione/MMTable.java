@@ -65,4 +65,20 @@ class MMTable{
         if(table.size() > MMTable.MAX_SIZE)
             table = table.subList(0, MMTable.MAX_SIZE);
     }
+
+    Mismatch getMismatchFromRef(String ref) {
+        for(Mismatch mm : table)
+            if(ref.equals(mm.getRef()))
+                return mm;
+        return null;
+    }
+
+    Mismatch getMismatchFromRef(String ref, int index) {
+        int currentInterations = 0;
+        for(Mismatch mm : table)
+            if(ref.equals(mm.getRefAsString()))
+                if(currentInterations++ == index)
+                    return mm;
+        return null;
+    }
 }

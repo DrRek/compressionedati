@@ -11,13 +11,16 @@ public class Decompressor {
     private int c, mmlen;
     private MMTable[] mismatchTables;
     private char command;
-    private String matchBuffer;
+    private String matchBuffer, referencePath, decompressedPath;
 
     public Decompressor(int c, int mmlen, String referencePath, String compressedPath, String decompressedPath) throws IOException {
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
         this.compressdFile=new FileReader(new File(compressedPath));
         this.decompressedFile=new FileWriter(new File(decompressedPath));
         this.dict = new Dictionary(c, referencePath, decompressedPath);
+
+        this.referencePath = referencePath;
+        this.decompressedPath = decompressedPath;
 
         this.c = c;
         this.mmlen = mmlen;
@@ -33,39 +36,43 @@ public class Decompressor {
         while (command != (char)-1){
             switch (command){
                 case 's':
-                    int setLen = nextNumber();
+                    int setLen = (int)nextNumber();
                     String setString = nextString(setLen);
                     write(setString);
                     command = (char) compressdFile.read();
                     break;
                 case 'c':
-                    int dictMapIndex = nextNumber();
-                    int dictListIndex = nextNumber();
+                    int dictMapIndex = (int)nextNumber();
+                    int dictListIndex = (int)nextNumber();
                     int matchLen;
                     if(command == ',')
-                        matchLen = nextNumber();
+                        matchLen = (int)nextNumber();
                     else {
                         matchLen = dictListIndex;
                         dictListIndex = 0;
                     }
                     BlockPointer ptr = dict.getPtrFromParamaters(dictMapIndex, dictListIndex);
                     matchBufferFromPtr(ptr, matchLen);
+
+                    if(command != 'm')
+                        writeMatchBuffer();
                     break;
                 case 'm':
-                    int offset = nextNumber();
+                    long offset = nextNumber();
+                    int len;
                     Mismatch mm;
                     if(command == ',') {
-                        int len = nextNumber();
+                        len = (int) nextNumber();
                         MMTable currentTable = mismatchTables[len - 1];
                         if(command != ',') {
                             //mi trovo nella situazione 1
-                            int realOffset = offset+c;
+                            int realOffset = (int)offset+c;
                             String ref = matchBuffer.substring(realOffset, realOffset+len);
                             mm = currentTable.getMismatchFromRef(ref);
                         } else {
                             //mi trovo nella situazione 2
-                            int rowIndex = nextNumber();
-                            int realOffset = offset+c;
+                            int rowIndex = (int) nextNumber();
+                            int realOffset = (int) offset+c;
                             String ref = matchBuffer.substring(realOffset, realOffset+len);
                             mm = currentTable.getMismatchFromRef(ref, rowIndex);
 
@@ -73,8 +80,9 @@ public class Decompressor {
                     } else {
                         //mi trovo nella situazione 3
                         List<Short> delta = nextByteList();
-                        int realOffset = offset+c;
-                        String ref = matchBuffer.substring(realOffset, realOffset+delta.size());
+                        long realOffset = offset+c;
+                        len = delta.size();
+                        String ref = matchBuffer.substring((int) realOffset, (int)realOffset+delta.size());
                         MMTable currentTable = mismatchTables[delta.size() - 1];
                         mm = new Mismatch(ref, delta, offset);
                     }
@@ -91,13 +99,34 @@ public class Decompressor {
         return true;
     }
 
-    private void write(String m) throws IOException {
-        decompressedFile.write(m);
+    private void updateMatchBufferFromMismatch(Mismatch mm) {
+        int realOffeset = (int)mm.getOffset() + c;
+        StringBuilder tempBuffer = new StringBuilder(matchBuffer);
+
+        for(Short s : mm.getDelta()){
+            char c = tempBuffer.charAt(realOffeset);
+            tempBuffer.setCharAt(realOffeset, (char)(c - s));
+            realOffeset++;
+        }
+        matchBuffer = tempBuffer.toString();
+    }
+
+    private void matchBufferFromPtr(BlockPointer ptr, int matchLen) throws IOException {
+        RandomAccessFile tempFileSource;
+        if(ptr.isTarget())
+            tempFileSource = new RandomAccessFile(new File(decompressedPath), "r");
+        else
+            tempFileSource = new RandomAccessFile(new File(referencePath), "r");
+
+        tempFileSource.seek(ptr.getOffset());
+        byte[] buffer = new byte[matchLen + c];
+        tempFileSource.read(buffer);
+        matchBuffer = new String(buffer);
     }
 
     private List<Short> nextByteList() throws IOException {
         List<Short> res = new ArrayList<>();
-        StringBuilder temp = new StringBuilder(command);
+        StringBuilder temp = new StringBuilder(command + "");
         while(
                 (command = (char) compressdFile.read()) != (char)-1 && command != ','
         ){
@@ -118,14 +147,21 @@ public class Decompressor {
         return new String(buf);
     }
 
-    private int nextNumber() throws IOException {
+    private long nextNumber() throws IOException {
         StringBuilder res = new StringBuilder();
         while(
                 (command = (char) compressdFile.read()) != (char)-1 && command != ','
         ){
             res.append(command);
         }
-        return Integer.parseInt(res.toString());
-    }}
+        return Long.parseLong(res.toString());
+    }
 
+    private void writeMatchBuffer() throws IOException {
+        write(matchBuffer);
+    }
+
+    private void write(String m) throws IOException {
+        decompressedFile.write(m);
+    }
 }

@@ -1,5 +1,6 @@
 package compressione;
 
+import javax.sound.sampled.AudioFormat;
 import java.util.*;
 import java.io.*;
 
@@ -19,6 +20,23 @@ class Mismatch{
         for(int i = 0; i<r.size(); i++){
             delta[i] = (short)(r.get(i) - t.get(i));
         }
+    }
+
+    Mismatch(String r, List<Short> d, long offset){
+        byte[] bytes = r.getBytes();
+        this.ref = new ArrayList<>();
+        for(byte b : bytes){
+            ref.add(b);
+        }
+
+        this.tar=new ArrayList<>();
+        this.delta = new short[d.size()];
+        for(int i = 0; i<d.size(); i++){
+            delta[i] = d.get(i);
+            tar.add((byte)(ref.get(i) - delta[i]));
+        }
+
+        this.offset = offset;
     }
 
     List<Byte> getRef(){
@@ -55,5 +73,13 @@ class Mismatch{
             out.append((char) b.byteValue());
         }
         return out.toString();
+    }
+
+    String getRefAsString(){
+        StringBuilder res = new StringBuilder();
+        for(Byte b  : ref){
+            res.append(b);
+        }
+        return res.toString();
     }
 }

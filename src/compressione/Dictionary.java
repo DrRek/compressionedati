@@ -110,4 +110,10 @@ class Dictionary{
     List<BlockPointer> getPointersForBlock(String block){
         return this.dict.getOrDefault(block, null);
     }
+
+    BlockPointer getPtrFromParamaters(int dictMapIndex, int dictListIndex) {
+        String block = blocks.get(dictMapIndex);
+        List<BlockPointer> list = dict.get(block);
+        return list.get(dictListIndex);
+    }
 }
