@@ -40,7 +40,7 @@ class Compressor {
         while((currentBlock = readFromPos(currentPos)) != null){
 
             //In this case i've reached the end of the file, since the read string is less then c i'll just set encode the ramainings
-            if(currentBlock.length() < this.c){
+            if(currentBlock.getBytes().length < this.c){
                 this.bufferToSetEncode += currentBlock;
                 encodeSetFromBuffer();
                 break;

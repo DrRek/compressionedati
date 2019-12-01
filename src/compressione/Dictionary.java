@@ -58,7 +58,7 @@ class Dictionary{
     }
 
     private void updateFromBuffer(){
-        while (buffer.length() >= this.c){
+        while (buffer.getBytes().length >= this.c){
             String current = buffer.substring(0, c);
             buffer = buffer.substring(c);
             BlockPointer ptr = new BlockPointer(bufferPosition, true);
