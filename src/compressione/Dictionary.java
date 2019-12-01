@@ -5,7 +5,7 @@ import java.util.*;
 
 class Dictionary{
 
-    List<String> blocks;
+    private List<String> blocks;
     private Map<String, List<BlockPointer>> dict;
     private int c;
     private String buffer;
@@ -99,7 +99,7 @@ class Dictionary{
         return ret.toString();
     }
 
-    int getIdFromBlock(String block){
+    private int getIdFromBlock(String block){
         for(int i = 0; i < blocks.size(); i++){
             if(block.equals(blocks.get(i)))
                 return i;
