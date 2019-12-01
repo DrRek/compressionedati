@@ -56,7 +56,7 @@ class MMTable{
         table.add(0, ele);
     }
 
-    private void addEntry(Mismatch mm){
+    void addEntry(Mismatch mm){
         table.add(0, mm);
         removeOldEntries();
     }
@@ -66,19 +66,17 @@ class MMTable{
             table = table.subList(0, MMTable.MAX_SIZE);
     }
 
-    Mismatch getMismatchFromRef(String ref) {
-        for(Mismatch mm : table)
-            if(ref.equals(mm.getRef()))
-                return mm;
+    Mismatch getMismatchFromRefAndUpdate(String ref) {
+        for(int i = 0; i < table.size(); i++)
+            if(ref.equals(table.get(i).getRefAsString())){
+                updateEntry(i);
+                return table.get(0);
+            }
         return null;
     }
 
-    Mismatch getMismatchFromRef(String ref, int index) {
-        int currentInterations = 0;
-        for(Mismatch mm : table)
-            if(ref.equals(mm.getRefAsString()))
-                if(currentInterations++ == index)
-                    return mm;
-        return null;
+    Mismatch getMismatchFromRefAndUpdate(String ref, int index) {
+        updateEntry(index);
+        return table.get(0);
     }
 }

@@ -68,13 +68,13 @@ class Decompressor {
                             //mi trovo nella situazione 1
                             int realOffset = (int)offset+c;
                             String ref = matchBuffer.substring(realOffset, realOffset+len);
-                            mm = currentTable.getMismatchFromRef(ref);
+                            mm = currentTable.getMismatchFromRefAndUpdate(ref);
                         } else {
                             //mi trovo nella situazione 2
                             int rowIndex = (int) nextNumber();
                             int realOffset = (int) offset+c;
                             String ref = matchBuffer.substring(realOffset, realOffset+len);
-                            mm = currentTable.getMismatchFromRef(ref, rowIndex);
+                            mm = currentTable.getMismatchFromRefAndUpdate(ref, rowIndex);
 
                         }
                     } else {
@@ -82,9 +82,10 @@ class Decompressor {
                         List<Short> delta = nextByteList();
                         long realOffset = offset+c;
                         len = delta.size();
-                        String ref = matchBuffer.substring((int) realOffset, (int)realOffset+delta.size());
-                        MMTable currentTable = mismatchTables[delta.size() - 1];
+                        String ref = matchBuffer.substring((int) realOffset, (int)realOffset+len);
+                        MMTable currentTable = mismatchTables[len - 1];
                         mm = new Mismatch(ref, delta, offset);
+                        currentTable.addEntry(mm);
                     }
 
                     updateMatchBufferFromMismatch(mm);
