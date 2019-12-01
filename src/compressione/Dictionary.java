@@ -107,10 +107,6 @@ class Dictionary{
         return -1;
     }
 
-    String getBlockFromId(int i){
-        return blocks.get(i);
-    }
-
     List<BlockPointer> getPointersForBlock(String block){
         return this.dict.getOrDefault(block, null);
     }

@@ -165,13 +165,14 @@ class Compressor {
     A missmatch will always be encoded with it's position and i't number of bytes
     if refs and tgts are equals for a row and no other row has same ref then sample message will be <m><offset><,><bytes_n>
     if entry with same delta is found then <m><offset><,><bytes_n><,><row_index>
-    else <m><offset><,><bytes_n><,><+|-><d1><+|-><d2><+|-><d3>...
+    else <m><offset><,><+|-><d1><+|-><d2><+|-><d3>...
     */
     private void encodeMismatch(Mismatch mm) throws IOException {
         MMTable relevantTable = mismatchTables[mm.getRef().size() -1];
         int cacheLookupRes = relevantTable.searchAndUpdate(mm);
-        String encodedMessage = "m"+mm.getOffset()+","+mm.getRef().size();
+        String encodedMessage = "m"+mm.getOffset();
         if(cacheLookupRes == MMTable.PERFECT_HIT){
+            encodedMessage += ","+mm.getRef().size();
             compressedFileWriter.write(encodedMessage);
         }else if(cacheLookupRes == MMTable.NO_HIT){
             for(short i : mm.getDelta())
@@ -181,7 +182,7 @@ class Compressor {
                     encodedMessage += i;
             compressedFileWriter.write(encodedMessage);
         } else {
-            encodedMessage += ","+cacheLookupRes;
+            encodedMessage += ","+mm.getRef().size()+","+cacheLookupRes;
             compressedFileWriter.write(encodedMessage);
         }
     }
