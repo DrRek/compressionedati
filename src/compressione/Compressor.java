@@ -150,9 +150,15 @@ class Compressor {
     /*
     Matches will be encoded as follow <c><dict_index><,><dic_list_index><,><match_length>
     example c1,10   from dict[1] pointer copy c+10 bytes
+    unless the dictionary entry in the list is 0, in this case the encoded would be <c><dict_index><,><match_length>
     */
     private void encodeMatch(Match m) throws IOException {
-        String enc="c"+m.getDictMapIndex()+","+m.getDictListIndex()+","+m.getMatchLength();
+        int dictListIndex = m.getDictListIndex();
+        String enc = "c"+m.getDictMapIndex();
+        if(dictListIndex != 0)
+            enc += ","+m.getDictListIndex();
+        enc += ","+m.getMatchLength();
+
         compressedFileWriter.write(enc);
         for(Mismatch mm: m.getMismatches()){
             encodeMismatch(mm);
