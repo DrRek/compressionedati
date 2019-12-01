@@ -148,7 +148,7 @@ class Compressor {
     }
 
     /*
-    Matches will be encoded as follow <c><dict_index><,><dic_list_index><,><match_length>
+    Matches will be encoded as follow <c><dict_map_index><,><dic_list_index><,><match_length>
     example c1,10   from dict[1] pointer copy c+10 bytes
     unless the dictionary entry in the list is 0, in this case the encoded would be <c><dict_index><,><match_length>
     */
@@ -171,7 +171,7 @@ class Compressor {
     A missmatch will always be encoded with it's position and i't number of bytes
     if refs and tgts are equals for a row and no other row has same ref then sample message will be <m><offset><,><bytes_n>
     if entry with same delta is found then <m><offset><,><bytes_n><,><row_index>
-    else <m><offset><,><+|-><d1><+|-><d2><+|-><d3>...
+    else <m><offset><+|-><d1><+|-><d2><+|-><d3>...
     */
     private void encodeMismatch(Mismatch mm) throws IOException {
         MMTable relevantTable = mismatchTables[mm.getRef().size() -1];

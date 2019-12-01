@@ -26,19 +26,19 @@ public class Tester {
         System.out.println("\ttarget file :\t" + filenameTarget);
         System.out.println("\treference file :\t" + filenameReference);
         System.out.println("\toutput file :\t" + filenameCompressed);
-        Compressor compressor = new Compressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
-        if(!compressor.run()){
-            System.out.println("Error while compressing");
+//        Compressor compressor = new Compressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
+//        if(!compressor.run()){
+//            System.out.println("Error while compressing");
+//            System.exit(1);
+//        }
+//        System.out.println("\nFinished compressing");
+//        System.out.println("Dictionary:\n"+compressor.getDictionary());
+
+        System.out.println("starting decompression");
+        Decompressor decompressor = new Decompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
+        if(!decompressor.run()){
+            System.out.println("Error while decompressing");
             System.exit(1);
         }
-        System.out.println("\nFinished compressing");
-        System.out.println("Dictionary:\n"+compressor.getDictionary());
-
-        //System.out.println("starting decompression");
-        //Decompressor decompressor = new Decompressor(c, filenameReference, filenameCompressed, filenameDecompressed);
-        //if(!decompressor.run()){
-        //    System.out.println("Error while decompressing");
-        //    System.exit(1);
-        //}
     }
 }
