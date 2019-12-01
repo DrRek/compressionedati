@@ -171,5 +171,11 @@ class Decompressor {
 
     private void write(String m) throws IOException {
         decompressedFile.write(m);
+        decompressedFile.flush();
+        dict.addString(m);
+    }
+
+    Dictionary getDictionary(){
+        return dict;
     }
 }
