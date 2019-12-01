@@ -1,6 +1,5 @@
 package compressione;
 
-import java.util.*;
 import java.io.*;
 
 public class Tester {
@@ -26,19 +25,38 @@ public class Tester {
         System.out.println("\ttarget file :\t" + filenameTarget);
         System.out.println("\treference file :\t" + filenameReference);
         System.out.println("\toutput file :\t" + filenameCompressed);
-//        Compressor compressor = new Compressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
-//        if(!compressor.run()){
-//            System.out.println("Error while compressing");
-//            System.exit(1);
-//        }
-//        System.out.println("\nFinished compressing");
-//        System.out.println("Dictionary:\n"+compressor.getDictionary());
+        Compressor compressor = new Compressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
+        if(!compressor.run()){
+            System.out.println("Error while compressing");
+            System.exit(1);
+        }
+        System.out.println("\nFinished compressing");
+        System.out.println("Dictionary:\n"+compressor.getDictionary());
 
-        System.out.println("starting decompression");
+        System.out.println("Starting decompression");
         Decompressor decompressor = new Decompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
         if(!decompressor.run()){
             System.out.println("Error while decompressing");
             System.exit(1);
         }
+        System.out.println("Finished decompressing\n");
+
+        BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
+        BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));
+        boolean equals=true;
+        String line1, line2;
+        while (((line1 = pre.readLine()) != null)&&((line2 = post.readLine()) != null))
+        {
+            if (!line1.equals(line2))
+            {
+                equals=false;
+                break;
+            }
+        }
+
+        if(equals)
+            System.out.println("Files are identical!");
+        else
+            System.err.println("Files are NOT identical");
     }
 }

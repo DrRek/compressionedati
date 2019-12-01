@@ -3,7 +3,7 @@ package compressione;
 import java.util.*;
 import java.io.*;
 
-public class Decompressor {
+class Decompressor {
     private Dictionary dict;
     private RandomAccessFile referenceFile;
     private FileReader compressdFile;
@@ -13,7 +13,7 @@ public class Decompressor {
     private char command;
     private String matchBuffer, referencePath, decompressedPath;
 
-    public Decompressor(int c, int mmlen, String referencePath, String compressedPath, String decompressedPath) throws IOException {
+    Decompressor(int c, int mmlen, String referencePath, String compressedPath, String decompressedPath) throws IOException {
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
         this.compressdFile=new FileReader(new File(compressedPath));
         this.decompressedFile=new FileWriter(new File(decompressedPath));
@@ -94,9 +94,16 @@ public class Decompressor {
                 default:
                     System.out.println("Error while decompressing");
             }
-            System.out.print(command);
         }
+
+        this.closeHandles();
         return true;
+    }
+
+    private void closeHandles() throws IOException {
+        referenceFile.close();
+        compressdFile.close();
+        decompressedFile.close();
     }
 
     private void updateMatchBufferFromMismatch(Mismatch mm) {
@@ -122,6 +129,7 @@ public class Decompressor {
         byte[] buffer = new byte[matchLen + c];
         tempFileSource.read(buffer);
         matchBuffer = new String(buffer);
+        tempFileSource.close();
     }
 
     private List<Short> nextByteList() throws IOException {
@@ -150,7 +158,7 @@ public class Decompressor {
     private long nextNumber() throws IOException {
         StringBuilder res = new StringBuilder();
         while(
-                (command = (char) compressdFile.read()) != (char)-1 && command != ','
+                (command = (char) compressdFile.read()) != (char)-1 && command >= '0' && command <= '9'
         ){
             res.append(command);
         }
