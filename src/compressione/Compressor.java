@@ -1,5 +1,7 @@
 package compressione;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.*;
 import java.io.*;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -10,9 +12,9 @@ class Compressor {
     //there are cases in which the getMatch function requires to have two instance of two RandomAccessFile of the same file, instead of opening a new file for each getMatch invocation i've
     //preferred to add another copy of the obj to the method instance. That's a bit dirty, but eventually much more efficient.
     private RandomAccessFile referenceFile, targetFile, targetFileForGetMatch;
-    private FileWriter compressedFileWriter;
+    private FileOutputStream compressedFileWriter;
     private int c, mmlen;
-    private String bufferToSetEncode;
+    private List<Byte> bufferToSetEncode;
     private MMTable[] mismatchTables;
 
     Compressor(int c, int mmlen, String referencePath, String targetPath, String compressedFile) throws IOException{
@@ -21,11 +23,11 @@ class Compressor {
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
         this.targetFile = new RandomAccessFile(new File(targetPath), "r");
         this.targetFileForGetMatch = new RandomAccessFile(new File(targetPath), "r");
-        this.compressedFileWriter=new FileWriter(new File(compressedFile));
+        this.compressedFileWriter=new FileOutputStream(new File(compressedFile));
 
         this.c = c;
         this.mmlen = mmlen;
-        this.bufferToSetEncode = "";
+        this.bufferToSetEncode = new ArrayList<>();
 
         this.mismatchTables=new MMTable[this.mmlen];
         for(int i=0; i<this.mmlen; i++){
@@ -35,13 +37,16 @@ class Compressor {
 
     boolean run() throws IOException {
         long currentPos = 0;
-        String currentBlock;
+        Byte[] currentBlock;
 
-        while((currentBlock = readFromPos(currentPos)) != null){
-
+        while(true){
+            currentBlock = readFromPos(currentPos);
             //In this case i've reached the end of the file, since the read string is less then c i'll just set encode the ramainings
-            if(currentBlock.getBytes().length < this.c){
-                this.bufferToSetEncode += currentBlock;
+            if(currentBlock == null || currentBlock.length < this.c){
+                if(currentBlock != null) {
+                    List<Byte> list = Arrays.asList(currentBlock);
+                    this.bufferToSetEncode.addAll(list);
+                }
                 encodeSetFromBuffer();
                 break;
             }
@@ -50,7 +55,7 @@ class Compressor {
             Match bestMatch = getBestMatch(currentPos, possibleMatches);
             if(bestMatch == null){
                 //In this case i haven't found a match, so i'll just set this to be set encoded
-                this.bufferToSetEncode += currentBlock.charAt(0);
+                this.bufferToSetEncode.add(currentBlock[0]);
                 ++currentPos;
             } else {
                 encodeSetFromBuffer();
@@ -159,7 +164,7 @@ class Compressor {
             enc += ","+m.getDictListIndex();
         enc += ","+m.getMatchLength();
 
-        compressedFileWriter.write(enc);
+        compressedFileWriter.write(enc.getBytes());
         for(Mismatch mm: m.getMismatches()){
             encodeMismatch(mm);
         }
@@ -179,37 +184,41 @@ class Compressor {
         String encodedMessage = "m"+mm.getOffset();
         if(cacheLookupRes == MMTable.PERFECT_HIT){
             encodedMessage += ","+mm.getRef().size();
-            compressedFileWriter.write(encodedMessage);
+            compressedFileWriter.write(encodedMessage.getBytes());
         }else if(cacheLookupRes == MMTable.NO_HIT){
             for(short i : mm.getDelta())
                 if(i >= 0)
                     encodedMessage += "+"+i;
                 else
                     encodedMessage += i;
-            compressedFileWriter.write(encodedMessage);
+            compressedFileWriter.write(encodedMessage.getBytes());
         } else {
             encodedMessage += ","+mm.getRef().size()+","+cacheLookupRes;
-            compressedFileWriter.write(encodedMessage);
+            compressedFileWriter.write(encodedMessage.getBytes());
         }
     }
 
     /*
     A set message will be composed as this: <s><message_len><,><message>
     */
-    private void encodeSet(String s) throws IOException {
-        compressedFileWriter.write("s"+s.length()+","+s);
+    private void encodeSet(List<Byte> s) throws IOException {
+        compressedFileWriter.write(("s"+s.size()+",").getBytes());
+        Byte[] array = new Byte[s.size()];
+        array = s.toArray(array);
+        compressedFileWriter.write(ArrayUtils.toPrimitive(array));
     }
 
     private void encodeSetFromBuffer() throws IOException {
-        if (!this.bufferToSetEncode.equals("")) {
+        if (this.bufferToSetEncode.size() != 0) {
             encodeSet(this.bufferToSetEncode);
             dict.addString(this.bufferToSetEncode);
-            this.bufferToSetEncode = "";
+            this.bufferToSetEncode = new ArrayList<>();
         }
     }
 
-    private String readFromPos(long pos){
-        byte[] b = new byte[this.c];
+    private Byte[] readFromPos(long pos){
+        byte[] a = new byte[this.c];
+        Byte[] b = new Byte[this.c];
 
         try{
             this.targetFile.seek(pos);
@@ -220,13 +229,16 @@ class Compressor {
         }
 
         try{
-            int readBytes = this.targetFile.read(b);
+            int readBytes = this.targetFile.read(a);
+            for (int i=0;i<a.length;i++) {
+                b[i] = a[i];
+            }
             if(readBytes < 0){
                 //EOF reached
                 return null;
             }
 
-            return new String(Arrays.copyOfRange(b, 0, readBytes));
+            return b;
         } catch (IOException ioe){
             System.out.println("Error in readFromPos while reading for position, THIS NEEDS TO BE DEBUGED.");
             ioe.printStackTrace();

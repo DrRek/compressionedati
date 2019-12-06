@@ -35,31 +35,31 @@ public class Tester {
         System.out.println("Finished compressing");
         System.out.println("Dictionary:\n"+compressor.getDictionary());
 
-        System.out.println("\nStarting decompression");
-        Decompressor decompressor = new Decompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
-        if(!decompressor.run()){
-            System.out.println("Error while decompressing");
-            System.exit(1);
-        }
-        System.out.println("Finished decompressing");
-        System.out.println("Dictionary:\n"+compressor.getDictionary());
-
-        BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
-        BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));
-        boolean equals=true;
-        String line1, line2;
-        while (((line1 = pre.readLine()) != null)&&((line2 = post.readLine()) != null))
-        {
-            if (!line1.equals(line2))
-            {
-                equals=false;
-                break;
-            }
-        }
-
-        if(equals)
-            System.out.println("Files are identical!");
-        else
-            System.err.println("Files are NOT identical");
+//        System.out.println("\nStarting decompression");
+//        Decompressor decompressor = new Decompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
+//        if(!decompressor.run()){
+//            System.out.println("Error while decompressing");
+//            System.exit(1);
+//        }
+//        System.out.println("Finished decompressing");
+//        System.out.println("Dictionary:\n"+compressor.getDictionary());
+//
+//        BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
+//        BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));
+//        boolean equals=true;
+//        String line1, line2;
+//        while (((line1 = pre.readLine()) != null)&&((line2 = post.readLine()) != null))
+//        {
+//            if (!line1.equals(line2))
+//            {
+//                equals=false;
+//                break;
+//            }
+//        }
+//
+//        if(equals)
+//            System.out.println("Files are identical!");
+//        else
+//            System.err.println("Files are NOT identical");
     }
 }

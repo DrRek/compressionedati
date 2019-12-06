@@ -1,4 +1,7 @@
+/*
 package compressione;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 import java.io.*;
@@ -7,16 +10,17 @@ class Decompressor {
     private Dictionary dict;
     private RandomAccessFile referenceFile;
     private FileReader compressdFile;
-    private FileWriter decompressedFile;
+    private FileOutputStream decompressedFile;
     private int c, mmlen;
     private MMTable[] mismatchTables;
     private char command;
-    private String matchBuffer, referencePath, decompressedPath;
+    private byte[] matchBuffer;
+    private String referencePath, decompressedPath;
 
     Decompressor(int c, int mmlen, String referencePath, String compressedPath, String decompressedPath) throws IOException {
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
         this.compressdFile=new FileReader(new File(compressedPath));
-        this.decompressedFile=new FileWriter(new File(decompressedPath));
+        this.decompressedFile=new FileOutputStream(new File(decompressedPath));
         this.dict = new Dictionary(c, referencePath, decompressedPath);
 
         this.referencePath = referencePath;
@@ -129,7 +133,7 @@ class Decompressor {
         tempFileSource.seek(ptr.getOffset());
         byte[] buffer = new byte[matchLen + c];
         tempFileSource.read(buffer);
-        matchBuffer = new String(buffer);
+        matchBuffer = buffer;
         tempFileSource.close();
     }
 
@@ -170,8 +174,10 @@ class Decompressor {
         write(matchBuffer);
     }
 
-    private void write(String m) throws IOException {
-        decompressedFile.write(m);
+    private void write(List<Byte> m) throws IOException {
+        Byte[] array = new Byte[m.size()];
+        array = m.toArray(array);
+        decompressedFile.write(ArrayUtils.toPrimitive(array));
         decompressedFile.flush();
         dict.addString(m);
     }
@@ -180,3 +186,4 @@ class Decompressor {
         return dict;
     }
 }
+*/

@@ -5,10 +5,10 @@ import java.util.*;
 
 class Dictionary{
 
-    private List<String> blocks;
-    private Map<String, List<BlockPointer>> dict;
+    private List<Byte[]> blocks;
+    private Map<Byte[], List<BlockPointer>> dict;
     private int c;
-    private String buffer;
+    private List<Byte> buffer;
     private long bufferPosition;
     private RandomAccessFile target;
 
@@ -17,7 +17,7 @@ class Dictionary{
         this.dict = new HashMap<>();
         this.blocks = new ArrayList<>();
         this.addFile(reference);
-        this.buffer = "";
+        this.buffer = new ArrayList<>();
         this.bufferPosition = 0;
         this.target = new RandomAccessFile(new File(target), "r");
     }
@@ -28,11 +28,14 @@ class Dictionary{
             RandomAccessFile is = new RandomAccessFile(new File(filename), "r");
             
             int numberOfBlocksFound=0;
-            int readBytes = 0;
-            while((readBytes  = is.read(b)) != -1){
-                String currentBlock = new String(Arrays.copyOfRange(b, 0, readBytes));
+            while(is.read(b) != -1){
                 BlockPointer p = new BlockPointer(numberOfBlocksFound*c, false);
-                addBlock(currentBlock, p);
+
+                Byte[] newB = new Byte[b.length];
+                for (int i=0;i<b.length;i++) {
+                    newB[i] = b[i];
+                }
+                addBlock(newB, p);
 
                 numberOfBlocksFound++;
             }
@@ -45,29 +48,36 @@ class Dictionary{
 
     void addMatch(Match m) throws IOException {
         target.seek(bufferPosition);
-        byte[] bytes = new byte[(int)m.getMatchLength()+c];
-        target.read(bytes);
-        String toAdd = new String(bytes);
-        buffer+= toAdd;
+        byte[] abytes = new byte[(int)m.getMatchLength()+c];
+        Byte[] bytes = new Byte[(int)m.getMatchLength()+c];
+        target.read(abytes);
+        for (int i=0;i<abytes.length;i++) {
+            bytes[i] = abytes[i];
+        }
+        buffer.addAll(Arrays.asList(bytes));
         updateFromBuffer();
     }
 
-    void addString(String m){
-        buffer += m;
+    void addString(List<Byte> m){
+        buffer.addAll(m);
         updateFromBuffer();
     }
 
     private void updateFromBuffer(){
-        while (buffer.getBytes().length >= this.c){
-            String current = buffer.substring(0, c);
-            buffer = buffer.substring(c);
+        while (buffer.size() >= this.c){
+            List<Byte> current = buffer.subList(0, c);
+
+            buffer = buffer.subList(c, buffer.size());
             BlockPointer ptr = new BlockPointer(bufferPosition, true);
-            addBlock(current, ptr);
+
+            Byte[] array = new Byte[current.size()];
+            array = current.toArray(array);
+            addBlock(array, ptr);
             bufferPosition += c;
         }
     }
 
-    private void addBlock(String block, BlockPointer ptr){
+    private void addBlock(Byte[] block, BlockPointer ptr){
         List<BlockPointer> currentList = this.dict.getOrDefault(block, null);
         if(currentList==null){
             blocks.add(block);
@@ -88,9 +98,9 @@ class Dictionary{
     public String toString(){
         StringBuilder ret = new StringBuilder();
         for(int i = 0; i < blocks.size(); i++){
-            String currBlock = blocks.get(i);
+            Byte[] currBlock = blocks.get(i);
 
-            ret.append(i).append(" - ").append(currBlock.replaceAll("\\n","%")).append(" -->\n  ");
+            ret.append(i).append(" - ").append(currBlock).append(" -->\n  ");
             for(BlockPointer ptr : dict.get(currBlock)){
                 ret.append("<").append(ptr.getOffset()).append(",").append(ptr.isTarget()).append("> ");
             }
@@ -99,20 +109,20 @@ class Dictionary{
         return ret.toString();
     }
 
-    private int getIdFromBlock(String block){
+    private int getIdFromBlock(Byte[] block){
         for(int i = 0; i < blocks.size(); i++){
-            if(block.equals(blocks.get(i)))
+            if(Arrays.equals(block, blocks.get(i)))
                 return i;
         }
         return -1;
     }
 
-    List<BlockPointer> getPointersForBlock(String block){
+    List<BlockPointer> getPointersForBlock(Byte[] block){
         return this.dict.getOrDefault(block, null);
     }
 
     BlockPointer getPtrFromParamaters(int dictMapIndex, int dictListIndex) {
-        String block = blocks.get(dictMapIndex);
+        Byte[] block = blocks.get(dictMapIndex);
         List<BlockPointer> list = dict.get(block);
         return list.get(dictListIndex);
     }
