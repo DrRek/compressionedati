@@ -36,7 +36,7 @@ class Compressor {
     }
 
     boolean run() throws IOException {
-        long currentPos = 0;
+        int currentPos = 0;
         Byte[] currentBlock;
 
         while(true){
@@ -76,7 +76,7 @@ class Compressor {
         targetFileForGetMatch.close();
     }
 
-    private Match getBestMatch(long pos, List<BlockPointer> list) throws FileNotFoundException{
+    private Match getBestMatch(int pos, List<BlockPointer> list) throws FileNotFoundException{
         if(list == null || list.size() < 1)
             return null;
 
@@ -91,7 +91,7 @@ class Compressor {
     }
 
     
-    private Match getMatch(long pos, BlockPointer ptr) throws FileNotFoundException{
+    private Match getMatch(int pos, BlockPointer ptr) throws FileNotFoundException{
         RandomAccessFile source, destination = targetFile;
         if(ptr.isReference()){
             source = referenceFile;
@@ -109,7 +109,7 @@ class Compressor {
             destination.seek(pos+this.c);
 
             //this will be used to remember missmatch location
-            long missmatachStartOffset = 0, currentPosition = 0;
+            int missmatachStartOffset = 0, currentPosition = 0;
 
             do{
                 byte sb = source.readByte(); //catch EOF and IOEx
@@ -216,7 +216,7 @@ class Compressor {
         }
     }
 
-    private Byte[] readFromPos(long pos){
+    private Byte[] readFromPos(int pos){
         byte[] a = new byte[this.c];
         Byte[] b = new Byte[this.c];
 

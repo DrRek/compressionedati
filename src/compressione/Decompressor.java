@@ -61,7 +61,7 @@ class Decompressor {
                         writeMatchBuffer();
                     break;
                 case 'm':
-                    long offset = nextNumber();
+                    int offset = nextNumber();
                     int len;
                     Mismatch mm;
                     if(command == ',') {
@@ -83,7 +83,7 @@ class Decompressor {
                     } else {
                         //mi trovo nella situazione 3
                         List<Short> delta = nextByteList();
-                        long realOffset = offset+c;
+                        int realOffset = offset+c;
                         len = delta.size();
                         byte[] ref = Arrays.copyOfRange(matchBuffer, (int)realOffset, (int)realOffset+len);
                         MMTable currentTable = mismatchTables[len - 1];
@@ -156,14 +156,14 @@ class Decompressor {
         return buf;
     }
 
-    private long nextNumber() throws IOException {
+    private int nextNumber() throws IOException {
         StringBuilder res = new StringBuilder();
         while(
                 (command = (char) compressdFile.read()) != (char)-1 && command >= '0' && command <= '9'
         ){
             res.append(command);
         }
-        return Long.parseLong(res.toString());
+        return Integer.parseInt(res.toString());
     }
 
     private void writeMatchBuffer() throws IOException {

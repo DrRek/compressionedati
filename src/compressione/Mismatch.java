@@ -10,9 +10,9 @@ class Mismatch{
     private short[] delta;
 
     //this will represent the number of bytes -c to skip from match start to the actual missmatch location
-    private long offset;
+    private int offset;
 
-    Mismatch(List<Byte> r, List<Byte> t, long offset){
+    Mismatch(List<Byte> r, List<Byte> t, int offset){
         this.ref=r;
         this.tar=t;
         this.offset = offset;
@@ -22,7 +22,7 @@ class Mismatch{
         }
     }
 
-    Mismatch(byte[] bytes, List<Short> d, long offset){
+    Mismatch(byte[] bytes, List<Short> d, int offset){
         this.ref = new ArrayList<>();
         for(byte b : bytes){
             ref.add(b);
@@ -62,7 +62,7 @@ class Mismatch{
             return ref.equals(r);
     }
 
-    long getOffset(){
+    int getOffset(){
         return offset;
     }
 

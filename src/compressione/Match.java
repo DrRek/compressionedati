@@ -9,7 +9,7 @@ public class Match{
     private static int MATCH_LENGTH_CONST_MULTIPLIER = 1;
     private int dictMapIndex;
     private int dictListIndex;
-    private long matchLength;
+    private int matchLength;
     private List<Mismatch> mismatches;
     private double computedCost;
 
@@ -20,7 +20,7 @@ public class Match{
         this.computedCost = Integer.MAX_VALUE;
     }
 
-    long getMatchLength(){
+    int getMatchLength(){
         return this.matchLength;
     }
 
@@ -39,7 +39,7 @@ public class Match{
         return this.mismatches;
     }
 
-    void addMissmatch(List<Byte> ref, List<Byte> tar, long offset){
+    void addMissmatch(List<Byte> ref, List<Byte> tar, int offset){
         this.mismatches.add(new Mismatch(ref, tar, offset));
         this.matchLength += ref.size();
     }

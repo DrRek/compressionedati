@@ -1,19 +1,19 @@
 package compressione;
 
 class BlockPointer{
-    private long offset;
+    private int offset;
     private Boolean file;
     private int dictMapIndex;
     private int dictListIndex;
 
-    BlockPointer(long off, Boolean f){
+    BlockPointer(int off, Boolean f){
         this.offset=off;
         this.file=f;
         this.dictMapIndex = -1;
         this.dictListIndex = -1;
     }
 
-    long getOffset(){
+    int getOffset(){
         return this.offset;
     }
 

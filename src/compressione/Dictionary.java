@@ -11,7 +11,7 @@ class Dictionary{
     private Map<String, List<BlockPointer>> dict;
     private int c;
     private List<Byte> buffer;
-    private long bufferPosition;
+    private int bufferPosition;
     private RandomAccessFile target;
 
     Dictionary(int c, String reference, String target) throws FileNotFoundException {
