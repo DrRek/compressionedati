@@ -65,6 +65,12 @@ class Dictionary{
         updateFromBuffer();
     }
 
+    void addString(byte[] m){
+        for(byte b : m)
+            buffer.add(b);
+        updateFromBuffer();
+    }
+
     private void updateFromBuffer(){
         while (buffer.size() >= this.c){
             List<Byte> current = buffer.subList(0, c);

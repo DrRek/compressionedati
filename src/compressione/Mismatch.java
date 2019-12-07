@@ -22,8 +22,7 @@ class Mismatch{
         }
     }
 
-    Mismatch(String r, List<Short> d, long offset){
-        byte[] bytes = r.getBytes();
+    Mismatch(byte[] bytes, List<Short> d, long offset){
         this.ref = new ArrayList<>();
         for(byte b : bytes){
             ref.add(b);

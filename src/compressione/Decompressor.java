@@ -1,4 +1,3 @@
-/*
 package compressione;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -9,7 +8,7 @@ import java.io.*;
 class Decompressor {
     private Dictionary dict;
     private RandomAccessFile referenceFile;
-    private FileReader compressdFile;
+    private FileInputStream compressdFile;
     private FileOutputStream decompressedFile;
     private int c, mmlen;
     private MMTable[] mismatchTables;
@@ -19,7 +18,7 @@ class Decompressor {
 
     Decompressor(int c, int mmlen, String referencePath, String compressedPath, String decompressedPath) throws IOException {
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
-        this.compressdFile=new FileReader(new File(compressedPath));
+        this.compressdFile=new FileInputStream(new File(compressedPath));
         this.decompressedFile=new FileOutputStream(new File(decompressedPath));
         this.dict = new Dictionary(c, referencePath, decompressedPath);
 
@@ -41,7 +40,7 @@ class Decompressor {
             switch (command){
                 case 's':
                     int setLen = (int)nextNumber();
-                    String setString = nextString(setLen);
+                    byte[] setString = nextString(setLen);
                     write(setString);
                     command = (char) compressdFile.read();
                     break;
@@ -70,14 +69,14 @@ class Decompressor {
                         MMTable currentTable = mismatchTables[len - 1];
                         if(command != ',') {
                             //mi trovo nella situazione 1
-                            int realOffset = (int)offset+c;
-                            String ref = matchBuffer.substring(realOffset, realOffset+len);
+                            int realOffset = (int)offset+c;;
+                            byte[] ref = Arrays.copyOfRange(matchBuffer, realOffset, realOffset+len);
                             mm = currentTable.getMismatchFromRefAndUpdate(ref);
                         } else {
                             //mi trovo nella situazione 2
                             int rowIndex = (int) nextNumber();
                             int realOffset = (int) offset+c;
-                            String ref = matchBuffer.substring(realOffset, realOffset+len);
+                            byte[] ref = Arrays.copyOfRange(matchBuffer, realOffset, realOffset+len);
                             mm = currentTable.getMismatchFromRefAndUpdate(ref, rowIndex);
 
                         }
@@ -86,7 +85,7 @@ class Decompressor {
                         List<Short> delta = nextByteList();
                         long realOffset = offset+c;
                         len = delta.size();
-                        String ref = matchBuffer.substring((int) realOffset, (int)realOffset+len);
+                        byte[] ref = Arrays.copyOfRange(matchBuffer, (int)realOffset, (int)realOffset+len);
                         MMTable currentTable = mismatchTables[len - 1];
                         mm = new Mismatch(ref, delta, offset);
                         currentTable.addEntry(mm);
@@ -113,14 +112,11 @@ class Decompressor {
 
     private void updateMatchBufferFromMismatch(Mismatch mm) {
         int realOffeset = (int)mm.getOffset() + c;
-        StringBuilder tempBuffer = new StringBuilder(matchBuffer);
 
         for(Short s : mm.getDelta()){
-            char c = tempBuffer.charAt(realOffeset);
-            tempBuffer.setCharAt(realOffeset, (char)(c - s));
+            matchBuffer[realOffeset] = (byte)(matchBuffer[realOffeset] - s);
             realOffeset++;
         }
-        matchBuffer = tempBuffer.toString();
     }
 
     private void matchBufferFromPtr(BlockPointer ptr, int matchLen) throws IOException {
@@ -154,10 +150,10 @@ class Decompressor {
         return res;
     }
 
-    private String nextString(int len) throws IOException {
-        char[] buf = new char[len];
+    private byte[] nextString(int len) throws IOException {
+        byte[] buf = new byte[len];
         compressdFile.read(buf);
-        return new String(buf);
+        return buf;
     }
 
     private long nextNumber() throws IOException {
@@ -174,6 +170,12 @@ class Decompressor {
         write(matchBuffer);
     }
 
+    private void write(byte[] m) throws IOException {
+        decompressedFile.write(m);
+        decompressedFile.flush();
+        dict.addString(m);
+    }
+
     private void write(List<Byte> m) throws IOException {
         Byte[] array = new Byte[m.size()];
         array = m.toArray(array);
@@ -186,4 +188,3 @@ class Decompressor {
         return dict;
     }
 }
-*/

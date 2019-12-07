@@ -66,7 +66,8 @@ class MMTable{
             table = table.subList(0, MMTable.MAX_SIZE);
     }
 
-    Mismatch getMismatchFromRefAndUpdate(String ref) {
+    Mismatch getMismatchFromRefAndUpdate(byte[] sref) {
+        String ref = new String(sref);
         for(int i = 0; i < table.size(); i++)
             if(ref.equals(table.get(i).getRefAsString())){
                 updateEntry(i);
@@ -75,7 +76,7 @@ class MMTable{
         return null;
     }
 
-    Mismatch getMismatchFromRefAndUpdate(String ref, int index) {
+    Mismatch getMismatchFromRefAndUpdate(byte[] sref, int index) {
         updateEntry(index);
         return table.get(0);
     }
