@@ -38,6 +38,8 @@ class Compressor {
     boolean run() throws IOException {
         int currentPos = 0;
         Byte[] currentBlock;
+        long totalFileSize = targetFile.length();
+        int currentPercent = 1;
 
         while(true){
             currentBlock = readFromPos(currentPos);
@@ -62,6 +64,12 @@ class Compressor {
                 encodeMatch(bestMatch);
 
                 currentPos += bestMatch.getMatchLength()+c;
+            }
+
+            int percent = (int)Math.floor(currentPos*10/totalFileSize);
+            if(percent > currentPercent){
+                System.out.println("File compressed at "+percent*10+"%");
+                currentPercent++;
             }
         }
 

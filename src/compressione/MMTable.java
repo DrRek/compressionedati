@@ -67,12 +67,17 @@ class MMTable{
     }
 
     Mismatch getMismatchFromRefAndUpdate(byte[] sref) {
-        String ref = new String(sref);
+        StringBuilder res = new StringBuilder();
+        for(byte b  : sref){
+            res.append(b);
+        }
         for(int i = 0; i < table.size(); i++)
-            if(ref.equals(table.get(i).getRefAsString())){
+            if(res.toString().equals(table.get(i).getRefAsString())){
                 updateEntry(i);
+                System.out.println("Sometimes it is succesfully");
                 return table.get(0);
             }
+        System.out.println("Error: unable to find a missmatch from a sref "+ sref);
         return null;
     }
 

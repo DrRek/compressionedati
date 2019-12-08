@@ -66,6 +66,10 @@ class Mismatch{
         return offset;
     }
 
+    void setOffset(int off){
+        this.offset = off;
+    }
+
     static String patternToString(List<Byte> pattern){
         StringBuilder out= new StringBuilder();
         for(Byte b:pattern){

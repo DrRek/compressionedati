@@ -72,13 +72,14 @@ class Decompressor {
                             int realOffset = (int)offset+c;;
                             byte[] ref = Arrays.copyOfRange(matchBuffer, realOffset, realOffset+len);
                             mm = currentTable.getMismatchFromRefAndUpdate(ref);
+                            mm.setOffset(offset);
                         } else {
                             //mi trovo nella situazione 2
                             int rowIndex = (int) nextNumber();
                             int realOffset = (int) offset+c;
                             byte[] ref = Arrays.copyOfRange(matchBuffer, realOffset, realOffset+len);
                             mm = currentTable.getMismatchFromRefAndUpdate(ref, rowIndex);
-
+                            mm.setOffset(offset);
                         }
                     } else {
                         //mi trovo nella situazione 3
@@ -112,7 +113,6 @@ class Decompressor {
 
     private void updateMatchBufferFromMismatch(Mismatch mm) {
         int realOffeset = (int)mm.getOffset() + c;
-
         for(Short s : mm.getDelta()){
             matchBuffer[realOffeset] = (byte)(matchBuffer[realOffeset] - s);
             realOffeset++;
@@ -137,7 +137,7 @@ class Decompressor {
         List<Short> res = new ArrayList<>();
         StringBuilder temp = new StringBuilder(command + "");
         while(
-                (command = (char) compressdFile.read()) != (char)-1 && command != ','
+                (command = (char) compressdFile.read()) != (char)-1 && (command >= '0' && command <= '9' || command == '+' || command == '-')
         ){
             if(command == '+' || command == '-') {
                 res.add(Short.parseShort(temp.toString()));

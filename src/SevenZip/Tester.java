@@ -1,6 +1,7 @@
 package SevenZip;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class Tester{
     public static final int kEncode = 0;
