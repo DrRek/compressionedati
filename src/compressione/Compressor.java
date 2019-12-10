@@ -44,11 +44,11 @@ class Compressor {
         while(true){
             currentBlock = readFromPos(currentPos);
 
-            if(currentBlock != null){
-                for(Byte b : currentBlock)
-                    System.out.print(String.format("%02x", b));
-                System.out.println();
-            }
+//            if(currentBlock != null){
+//                for(Byte b : currentBlock)
+//                    System.out.print(String.format("%02x", b));
+//                System.out.println();
+//            }
             //In this case i've reached the end of the file, since the read string is less then c i'll just set encode the ramainings
             if(currentBlock == null || currentBlock.length < this.c){
                 if(currentBlock != null) {
