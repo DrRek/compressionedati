@@ -1,7 +1,11 @@
 package compressione;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Tester {
 
@@ -28,7 +32,19 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        //testFilesSrc = new String[]{"test97"};
+        testFilesSrc = new String[]{"test93"};
+
+//        String[] toRemove = {"test97"};
+//        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
+//        for (String s : testFilesSrc) {
+//            if (s1List.contains(s)) {
+//                s1List.remove(s);
+//            } else {
+//                s1List.add(s);
+//            }
+//        }
+//        testFilesSrc = new String[s1List.size()];
+//        testFilesSrc = s1List.toArray(testFilesSrc);
 
         for(String dir : testFilesSrc){
             String testDir = basePath+dir;

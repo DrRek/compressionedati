@@ -36,6 +36,7 @@ class Decompressor {
 
     boolean run() throws IOException {
         command = (char) compressdFile.read();
+
         while (command != (char)-1){
             switch (command){
                 case 's':

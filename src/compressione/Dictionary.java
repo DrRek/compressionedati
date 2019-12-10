@@ -135,4 +135,8 @@ class Dictionary{
         List<BlockPointer> list = dict.get(block);
         return list.get(dictListIndex);
     }
+
+    public List<String> getBlocks(){
+        return blocks;
+    }
 }
