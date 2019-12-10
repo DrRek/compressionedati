@@ -32,7 +32,7 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        testFilesSrc = new String[]{"test93"};
+        testFilesSrc = new String[]{"test97"};
 
 //        String[] toRemove = {"test97"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
