@@ -66,8 +66,9 @@ class Dictionary{
     }
 
     void addString(byte[] m){
-        for(byte b : m)
+        for(byte b : m){
             buffer.add(b);
+        }
         updateFromBuffer();
     }
 

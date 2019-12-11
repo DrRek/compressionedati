@@ -172,17 +172,9 @@ class Decompressor {
     }
 
     private void write(byte[] m) throws IOException {
+        dict.addString(m);
         decompressedFile.write(m);
         decompressedFile.flush();
-        dict.addString(m);
-    }
-
-    private void write(List<Byte> m) throws IOException {
-        Byte[] array = new Byte[m.size()];
-        array = m.toArray(array);
-        decompressedFile.write(ArrayUtils.toPrimitive(array));
-        decompressedFile.flush();
-        dict.addString(m);
     }
 
     Dictionary getDictionary(){
