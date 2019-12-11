@@ -32,7 +32,7 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        testFilesSrc = new String[]{"test93"};
+        testFilesSrc = new String[]{"test92"};
 
 //        String[] toRemove = {"test97"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
@@ -71,20 +71,6 @@ public class Tester {
             }
             System.out.println("Finished decompressing");
             //System.out.println("Dictionary:\n"+decompressor.getDictionary());
-
-
-//            FileInputStream pre = new FileInputStream(new File(filenameTarget));
-//            FileInputStream post = new FileInputStream(new File(filenameDecompressed));
-//            byte[] streamABlock = new byte[50];
-//            byte[] streamBBlock = new byte[50];
-//            boolean match; int bytesReadA;
-//            do {
-//                bytesReadA = pre.read(streamABlock);
-//                int bytesReadB = post.read(streamBBlock);
-//                match = ((bytesReadA == bytesReadB) && streamABlock.equals(streamBBlock));
-//            } while (match && (bytesReadA > -1));
-
-
 
             BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
             BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));

@@ -74,7 +74,6 @@ class MMTable{
         for(int i = 0; i < table.size(); i++)
             if(res.toString().equals(table.get(i).getRefAsString())){
                 updateEntry(i);
-                System.out.println("Sometimes it is succesfully");
                 return table.get(0);
             }
         System.out.println("Error: unable to find a missmatch from a sref "+ sref);

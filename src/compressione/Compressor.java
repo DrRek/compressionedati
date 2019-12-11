@@ -39,7 +39,7 @@ class Compressor {
         int currentPos = 0;
         Byte[] currentBlock;
         long totalFileSize = targetFile.length();
-        int currentPercent = 1;
+        int currentPercent = 0;
 
         while(true){
             currentBlock = readFromPos(currentPos);

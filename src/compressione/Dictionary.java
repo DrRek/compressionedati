@@ -7,8 +7,8 @@ import java.util.*;
 
 class Dictionary{
 
-    private List<byte[]> blocks;
-    private Map<byte[], List<BlockPointer>> dict;
+    private List<WrappedByteArray> blocks;
+    private Map<WrappedByteArray, List<BlockPointer>> dict;
     private int c;
     private List<Byte> buffer;
     private int bufferPosition;
@@ -86,7 +86,7 @@ class Dictionary{
     }
 
     private void addBlock(Byte[] block, BlockPointer ptr){
-        byte[] blockPrim = ArrayUtils.toPrimitive(block);
+        WrappedByteArray blockPrim = new WrappedByteArray(block);
         List<BlockPointer> currentList = this.dict.getOrDefault(blockPrim, null);
         if(currentList==null){
             blocks.add(blockPrim);
@@ -107,7 +107,7 @@ class Dictionary{
     public String toString(){
         StringBuilder ret = new StringBuilder();
         for(int i = 0; i < blocks.size(); i++){
-            String currBlock = new String(blocks.get(i));
+            String currBlock = new String(blocks.get(i).getSource());
 
             ret.append(i).append(" - ").append(currBlock).append(" -->\n  ");
             for(BlockPointer ptr : dict.get(currBlock)){
@@ -119,21 +119,57 @@ class Dictionary{
     }
 
     private int getIdFromBlock(Byte[] block){
-        byte[] blockPrim = ArrayUtils.toPrimitive(block);
         for(int i = 0; i < blocks.size(); i++){
-            if(Arrays.equals(blockPrim, blocks.get(i)))
+            if(blocks.get(i).equals(new WrappedByteArray(block))){
                 return i;
+            }
         }
         return -1;
     }
 
     List<BlockPointer> getPointersForBlock(Byte[] block){
-        return this.dict.getOrDefault(ArrayUtils.toPrimitive(block), null);
+        return this.dict.getOrDefault(new WrappedByteArray(block), null);
     }
 
     BlockPointer getPtrFromParamaters(int dictMapIndex, int dictListIndex) {
-        byte[] block = blocks.get(dictMapIndex);
+        WrappedByteArray block = blocks.get(dictMapIndex);
         List<BlockPointer> list = dict.get(block);
         return list.get(dictListIndex);
+    }
+
+    private class WrappedByteArray {
+        private byte[] source;
+
+        WrappedByteArray(byte[] source){
+            this.source = source;
+        }
+
+        WrappedByteArray(Byte[] source){
+            this.source = ArrayUtils.toPrimitive(source);
+        }
+
+        @Override
+        public boolean equals(Object obj){
+            if(!(obj instanceof WrappedByteArray))
+                return false;
+            byte[] toCompare = ((WrappedByteArray)obj).getSource();
+            if(toCompare.length != source.length)
+                return false;
+            for(int i=0; i<source.length; i++)
+                if(source[i] != toCompare[i])
+                    return false;
+            return true;
+        }
+
+        @Override
+        public int hashCode(){
+            int result = 0;
+            for (byte b : source) result += b;
+            return result;
+        }
+
+        public byte[] getSource() {
+            return source;
+        }
     }
 }
