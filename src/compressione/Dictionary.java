@@ -7,8 +7,8 @@ import java.util.*;
 
 class Dictionary{
 
-    private List<String> blocks;
-    private Map<String, List<BlockPointer>> dict;
+    private List<byte[]> blocks;
+    private Map<byte[], List<BlockPointer>> dict;
     private int c;
     private List<Byte> buffer;
     private int bufferPosition;
@@ -86,14 +86,15 @@ class Dictionary{
     }
 
     private void addBlock(Byte[] block, BlockPointer ptr){
-        List<BlockPointer> currentList = this.dict.getOrDefault(new String(ArrayUtils.toPrimitive(block)), null);
+        byte[] blockPrim = ArrayUtils.toPrimitive(block);
+        List<BlockPointer> currentList = this.dict.getOrDefault(blockPrim, null);
         if(currentList==null){
-            blocks.add(new String(ArrayUtils.toPrimitive(block)));
+            blocks.add(blockPrim);
             ptr.setDictMapIndex(blocks.size()-1);
             ptr.setDictListIndex(0);
             currentList=new  ArrayList<>();
             currentList.add(ptr);
-            this.dict.put(new String(ArrayUtils.toPrimitive(block)), currentList);
+            this.dict.put(blockPrim, currentList);
         } else {
             currentList.add(ptr);
             int dictMapIndex = getIdFromBlock(block);
@@ -106,7 +107,7 @@ class Dictionary{
     public String toString(){
         StringBuilder ret = new StringBuilder();
         for(int i = 0; i < blocks.size(); i++){
-            String currBlock = blocks.get(i);
+            String currBlock = new String(blocks.get(i));
 
             ret.append(i).append(" - ").append(currBlock).append(" -->\n  ");
             for(BlockPointer ptr : dict.get(currBlock)){
@@ -118,25 +119,21 @@ class Dictionary{
     }
 
     private int getIdFromBlock(Byte[] block){
-        String blockToString = new String(ArrayUtils.toPrimitive(block));
+        byte[] blockPrim = ArrayUtils.toPrimitive(block);
         for(int i = 0; i < blocks.size(); i++){
-            if(blockToString.equals(blocks.get(i)))
+            if(Arrays.equals(blockPrim, blocks.get(i)))
                 return i;
         }
         return -1;
     }
 
     List<BlockPointer> getPointersForBlock(Byte[] block){
-        return this.dict.getOrDefault(new String(ArrayUtils.toPrimitive(block)), null);
+        return this.dict.getOrDefault(ArrayUtils.toPrimitive(block), null);
     }
 
     BlockPointer getPtrFromParamaters(int dictMapIndex, int dictListIndex) {
-        String block = blocks.get(dictMapIndex);
+        byte[] block = blocks.get(dictMapIndex);
         List<BlockPointer> list = dict.get(block);
         return list.get(dictListIndex);
-    }
-
-    public List<String> getBlocks(){
-        return blocks;
     }
 }
