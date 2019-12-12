@@ -120,17 +120,19 @@ public class NewDecompressor {
 
     private List<Short> readShortListAndUpdateCommand() throws IOException {
         List<Short> res = new ArrayList<>();
-        StringBuilder temp = new StringBuilder(command + "");
-        while(
-                (command = (byte)compressedFile.read()) != (byte)-1 && (command >= '0' && command <= '9' || command == '+' || command == '-')
-        ){
-            if(command == '+' || command == '-') {
+        StringBuilder temp = new StringBuilder();
+        boolean firstTime = true;
+        do {
+            if(((char)command == '+' || (char)command == '-') && !firstTime) { // 45 e 43 foss + e -
                 res.add(Short.parseShort(temp.toString()));
                 temp = new StringBuilder((char)command + "");
             } else {
+                firstTime = false;
                 temp.append((char)command);
             }
-        }
+        }while(
+                (command = (byte)compressedFile.read()) != (byte)-1 && ((char)command >= '0' && (char)command <= '9' || (char)command == '+' || (char)command == '-')
+        );
         res.add(Short.parseShort(temp.toString()));
         return res;
     }
@@ -196,7 +198,6 @@ public class NewDecompressor {
         ){
             res.append((char)command);
         }
-        System.out.println(res.toString() +" "+ (char)command);
         return Integer.parseInt(res.toString());
     }
 

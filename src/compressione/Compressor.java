@@ -19,7 +19,7 @@ class Compressor {
     private MMTable[] mismatchTables;
 
     Compressor(int c, int mmlen, String referencePath, String targetPath, String compressedFile) throws IOException{
-        this.dict = new Dictionary(c, referencePath, targetPath);
+        this.dict = new Dictionary(c, referencePath, targetPath, true);
 
         this.referenceFile = new RandomAccessFile(new File(referencePath), "r");
         this.targetFile = new RandomAccessFile(new File(targetPath), "r");
@@ -45,11 +45,6 @@ class Compressor {
         while(true){
             currentBlock = readFromPos(currentPos);
 
-//            if(currentBlock != null){
-//                for(Byte b : currentBlock)
-//                    System.out.print(String.format("%02x", b));
-//                System.out.println();
-//            }
             //In this case i've reached the end of the file, since the read string is less then c i'll just set encode the ramainings
             if(currentBlock == null || currentBlock.length < this.c){
                 if(currentBlock != null) {
@@ -104,8 +99,6 @@ class Compressor {
         for(BlockPointer ptr : list){
             tempMatch = getMatch(pos, ptr);
 
-            System.out.println((tempMatch.getMatchLength()+this.c)+" "+ptr.getOffset()+" "+(pos-this.c));
-            System.out.println();
             if(tempMatch.getMatchLength()+this.c + ptr.getOffset() >= pos-this.c && ptr.isTarget())
                 continue;
                 //tempMatch.setMatchLength(pos-1);

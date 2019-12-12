@@ -32,7 +32,7 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        testFilesSrc = new String[]{"test94"};
+        testFilesSrc = new String[]{"test97"};
 
 //        String[] toRemove = {"test97"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
@@ -64,7 +64,7 @@ public class Tester {
             //System.out.println("Dictionary:\n"+compressor.getDictionary());
 
             System.out.println("\nStarting decompression of " + testDir);
-            Decompressor decompressor = new Decompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
+            NewDecompressor decompressor = new NewDecompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
             if(!decompressor.run()){
                 System.out.println("Error while decompressing");
                 System.exit(1);

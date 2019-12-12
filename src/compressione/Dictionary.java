@@ -7,6 +7,7 @@ import java.util.*;
 
 class Dictionary{
 
+    private final boolean magic;
     private List<WrappedByteArray> blocks;
     private Map<WrappedByteArray, List<BlockPointer>> dict;
     private int c;
@@ -22,6 +23,18 @@ class Dictionary{
         this.buffer = new ArrayList<>();
         this.bufferPosition = 0;
         this.target = new RandomAccessFile(new File(target), "r");
+        magic = false;
+    }
+
+    Dictionary(int c, String reference, String target, boolean magic) throws FileNotFoundException {
+        this.c = c;
+        this.dict = new HashMap<>();
+        this.blocks = new ArrayList<>();
+        this.addFile(reference);
+        this.buffer = new ArrayList<>();
+        this.bufferPosition = 0;
+        this.target = new RandomAccessFile(new File(target), "r");
+        this.magic = magic;
     }
 
     private void addFile(String filename){
@@ -78,7 +91,12 @@ class Dictionary{
     }
 
     private void updateFromBuffer(){
-        while (buffer.size() >= this.c){
+        int margin;
+        if(magic)
+            margin = this.c*1;
+        else
+            margin = this.c;
+        while (buffer.size() >= margin){
             List<Byte> current = buffer.subList(0, c);
 
             buffer = buffer.subList(c, buffer.size());
