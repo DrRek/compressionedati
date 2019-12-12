@@ -72,6 +72,11 @@ class Dictionary{
         updateFromBuffer();
     }
 
+    void addString(byte b){
+        buffer.add(b);
+        updateFromBuffer();
+    }
+
     private void updateFromBuffer(){
         while (buffer.size() >= this.c){
             List<Byte> current = buffer.subList(0, c);
@@ -136,6 +141,10 @@ class Dictionary{
         WrappedByteArray block = blocks.get(dictMapIndex);
         List<BlockPointer> list = dict.get(block);
         return list.get(dictListIndex);
+    }
+
+    public byte[] getBlockById(int id){
+        return blocks.get(id).getSource();
     }
 
     private class WrappedByteArray {

@@ -15,6 +15,7 @@ class Compressor {
     private FileOutputStream compressedFileWriter;
     private int c, mmlen;
     private List<Byte> bufferToSetEncode;
+    private int offsetOfBufferAddedToDict;
     private MMTable[] mismatchTables;
 
     Compressor(int c, int mmlen, String referencePath, String targetPath, String compressedFile) throws IOException{
@@ -63,7 +64,7 @@ class Compressor {
             Match bestMatch = getBestMatch(currentPos, possibleMatches);
             if(bestMatch == null){
                 //In this case i haven't found a match, so i'll just set this to be set encoded
-                this.bufferToSetEncode.add(currentBlock[0]);
+                addToEncodeSetAndDict(currentBlock[0]);
                 ++currentPos;
             } else {
                 encodeSetFromBuffer();
@@ -83,6 +84,11 @@ class Compressor {
         return true;
     }
 
+    private void addToEncodeSetAndDict(Byte aByte) {
+        this.bufferToSetEncode.add(aByte);
+        this.dict.addString(aByte);
+    }
+
     private void closeHandles() throws IOException {
         referenceFile.close();
         targetFile.close();
@@ -98,7 +104,11 @@ class Compressor {
         for(BlockPointer ptr : list){
             tempMatch = getMatch(pos, ptr);
 
-            if(optimalMatch == null || (tempMatch != null && optimalMatch.getCost() > tempMatch.getCost()))
+            if(tempMatch.getMatchLength() + ptr.getOffset() >= pos && ptr.isTarget())
+                continue;
+                //tempMatch.setMatchLength(pos-1);
+
+            if(optimalMatch == null || optimalMatch.getCost() > tempMatch.getCost())
                 optimalMatch = tempMatch;
         }
         return optimalMatch;
@@ -225,7 +235,6 @@ class Compressor {
     private void encodeSetFromBuffer() throws IOException {
         if (this.bufferToSetEncode.size() != 0) {
             encodeSet(this.bufferToSetEncode);
-            dict.addString(this.bufferToSetEncode);
             this.bufferToSetEncode = new ArrayList<>();
         }
     }

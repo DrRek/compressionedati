@@ -2,6 +2,7 @@ package compressione;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingFormatArgumentException;
 
 public class Match{
     private static double MISSMATCH_COST_MULTIPLIER = 1.1;
@@ -50,5 +51,11 @@ public class Match{
 
     int getDictListIndex(){
         return dictListIndex;
+    }
+
+    void setMatchLength(int len) {
+        this.matchLength = len;
+//        for(int i = 0; i<mismatches.size(); i++);
+//        mismatches.get(i).;
     }
 }

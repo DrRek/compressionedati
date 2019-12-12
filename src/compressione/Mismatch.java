@@ -85,4 +85,8 @@ class Mismatch{
         }
         return res.toString();
     }
+
+    public int getLen() {
+        return ref.size();
+    }
 }
