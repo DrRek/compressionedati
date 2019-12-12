@@ -104,9 +104,9 @@ class Compressor {
         for(BlockPointer ptr : list){
             tempMatch = getMatch(pos, ptr);
 
-            System.out.println(tempMatch.getMatchLength()+" "+ptr.getOffset()+" "+pos);
+            System.out.println((tempMatch.getMatchLength()+this.c)+" "+ptr.getOffset()+" "+(pos-this.c));
             System.out.println();
-            if(tempMatch.getMatchLength() + ptr.getOffset() >= pos-this.c && ptr.isTarget())
+            if(tempMatch.getMatchLength()+this.c + ptr.getOffset() >= pos-this.c && ptr.isTarget())
                 continue;
                 //tempMatch.setMatchLength(pos-1);
 
