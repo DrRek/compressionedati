@@ -61,7 +61,7 @@ class Dictionary{
         }
     }
 
-    void addMatch(Match m) throws IOException {
+    /*void addMatch(Match m) throws IOException {
         target.seek(bufferPosition);
         byte[] abytes = new byte[(int)m.getMatchLength()+c];
         Byte[] bytes = new Byte[(int)m.getMatchLength()+c];
@@ -71,7 +71,7 @@ class Dictionary{
         }
         buffer.addAll(Arrays.asList(bytes));
         updateFromBuffer();
-    }
+    }*/
 
     void addString(List<Byte> m){
         buffer.addAll(m);

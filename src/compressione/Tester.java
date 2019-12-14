@@ -32,9 +32,9 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        testFilesSrc = new String[]{"test97"};
+        testFilesSrc = new String[]{"test89"};
 
-//        String[] toRemove = {"test97"};
+//        String[] toRemove = {"test97", "test93"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
 //        for (String s : testFilesSrc) {
 //            if (s1List.contains(s)) {
@@ -55,7 +55,7 @@ public class Tester {
             String filenameDecompressed = testDir+"/output.decompressed";
 
             System.out.println("\nStarting compression of " + testDir);
-            Compressor compressor = new Compressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
+            NewCompressor compressor = new NewCompressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
             if(!compressor.run()){
                 System.out.println("Error while compressing");
                 System.exit(1);
@@ -86,10 +86,10 @@ public class Tester {
             }
 
             if(equals)
-                System.out.println("Files are identical!");
+                System.out.println("\nFiles are identical!");
             else {
                 System.exit(1);
-                System.err.println("Files are NOT identical");
+                System.err.println("\nFiles are NOT identical");
             }
         }
     }
