@@ -1,5 +1,6 @@
 package compressione;
 
+import SevenZip.Encoder;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
@@ -19,7 +20,7 @@ public class Tester {
         });
     }
 
-    public static void main(String args[]) throws FileNotFoundException, IOException{
+    public static void main(String args[]) throws Exception {
 
         int mmlen = 4;
 
@@ -61,7 +62,8 @@ public class Tester {
                 System.exit(1);
             }
             System.out.println("Finished compressing");
-            //System.out.println("Dictionary:\n"+compressor.getDictionary());
+
+//            Encoder.main(new String[]{filenameTarget, testDir + "/output.7z"});
 
             System.out.println("\nStarting decompression of " + testDir);
             NewDecompressor decompressor = new NewDecompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
@@ -70,7 +72,6 @@ public class Tester {
                 System.exit(1);
             }
             System.out.println("Finished decompressing");
-            //System.out.println("Dictionary:\n"+decompressor.getDictionary());
 
             BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
             BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));

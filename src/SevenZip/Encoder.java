@@ -3,7 +3,7 @@ package SevenZip;
 import java.io.*;
 import java.util.Arrays;
 
-public class Tester{
+public class Encoder {
     public static final int kEncode = 0;
 	public static final int kDecode = 1;
 	public static final int kBenchmak = 2;
@@ -27,18 +27,20 @@ public class Tester{
 	public static int MatchFinder = 1;
 
 	public static void main(String[] args) throws Exception {
-		String name = "test.compressed";
-
-		if(args.length > 0){
-			name = args[0]+".compressed";
+		if(args.length < 2){
+			System.out.println("Error you should pass input and output name to the SevenZip encoder");
 		}
+
+		String inputPath = args[0];
+		String outputPath = args[1];
+
 		
         //END OF STRING: DA PROVARE ENTRAMBI
 		boolean eos = false;
 
         //Start test compression
-		File inFile = new File("test_files/"+name);
-		File outFile = new File("test_files/"+name+".7z");
+		File inFile = new File(inputPath);
+		File outFile = new File(outputPath);
                                                                                                  
 	    BufferedInputStream inStream  = new BufferedInputStream(new FileInputStream(inFile));      
         BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(outFile)); 
@@ -66,31 +68,31 @@ public class Tester{
         inStream.close();
 
 
-        //Start test decompression
-        inFile = new File("test_files/"+name+".7z");
-        outFile = new File("test_files/"+name+".7z.decompressed");
-
-        inStream  = new BufferedInputStream(new FileInputStream(inFile));      
-        outStream = new BufferedOutputStream(new FileOutputStream(outFile)); 
-
-        int propertiesSize = 5;
-		byte[] properties = new byte[propertiesSize];
-		if (inStream.read(properties, 0, propertiesSize) != propertiesSize)
-			throw new Exception("input .lzma file is too short");
-		SevenZip.Compression.LZMA.Decoder decoder = new SevenZip.Compression.LZMA.Decoder();
-		decoder.SetDecoderProperties(properties);
-		long outSize = 0;
-		for (int i = 0; i < 8; i++)
-		{
-			int v = inStream.read();
-			if (v < 0)
-				throw new Exception("Can't read stream size");
-			outSize |= ((long)v) << (8 * i);
-		}
-		decoder.Code(inStream, outStream, outSize);
-		outStream.flush();
-		outStream.close();
-		inStream.close();
+//        //Start test decompression
+//        inFile = new File("test_files/"+name+".7z");
+//        outFile = new File("test_files/"+name+".7z.decompressed");
+//
+//        inStream  = new BufferedInputStream(new FileInputStream(inFile));
+//        outStream = new BufferedOutputStream(new FileOutputStream(outFile));
+//
+//        int propertiesSize = 5;
+//		byte[] properties = new byte[propertiesSize];
+//		if (inStream.read(properties, 0, propertiesSize) != propertiesSize)
+//			throw new Exception("input .lzma file is too short");
+//		SevenZip.Compression.LZMA.Decoder decoder = new SevenZip.Compression.LZMA.Decoder();
+//		decoder.SetDecoderProperties(properties);
+//		long outSize = 0;
+//		for (int i = 0; i < 8; i++)
+//		{
+//			int v = inStream.read();
+//			if (v < 0)
+//				throw new Exception("Can't read stream size");
+//			outSize |= ((long)v) << (8 * i);
+//		}
+//		decoder.Code(inStream, outStream, outSize);
+//		outStream.flush();
+//		outStream.close();
+//		inStream.close();
 		
 
         return;
