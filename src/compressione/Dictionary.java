@@ -130,14 +130,8 @@ class Dictionary{
     @Override
     public String toString(){
         StringBuilder ret = new StringBuilder();
-        for(int i = 0; i < blocks.size(); i++){
-            String currBlock = new String(blocks.get(i).getSource());
-
-            ret.append(i).append(" - ").append(currBlock).append(" -->\n  ");
-            for(BlockPointer ptr : dict.get(currBlock)){
-                ret.append("<").append(ptr.getOffset()).append(",").append(ptr.isTarget()).append("> ");
-            }
-            ret.append("\n");
+        for(WrappedByteArray bs : blocks){
+            ret.append(new String(bs.getSource())).append("\n");
         }
         return ret.toString();
     }

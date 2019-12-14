@@ -56,12 +56,12 @@ public class Tester {
 
             System.out.println("\nStarting compression of " + testDir);
             NewCompressor compressor = new NewCompressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
+            System.out.println("Dictionary:\n"+compressor.getDictionary());
             if(!compressor.run()){
                 System.out.println("Error while compressing");
                 System.exit(1);
             }
             System.out.println("Finished compressing");
-            //System.out.println("Dictionary:\n"+compressor.getDictionary());
 
             System.out.println("\nStarting decompression of " + testDir);
             NewDecompressor decompressor = new NewDecompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);

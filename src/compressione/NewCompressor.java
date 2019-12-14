@@ -222,4 +222,8 @@ public class NewCompressor {
         }
         return null;
     }
+
+    public Dictionary getDictionary() {
+        return dict;
+    }
 }
