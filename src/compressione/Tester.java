@@ -24,7 +24,7 @@ public class Tester {
         int mmlen = 4;
 
         //Number of bytes that will correspond to length of the blocks pointed by the dict.
-        int c = 4;
+        int c = 100;
         if(args.length > 1){
             c = Integer.parseInt(args[0]);
         }
@@ -32,7 +32,7 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        testFilesSrc = new String[]{"test89"};
+//        testFilesSrc = new String[]{"test97"};
 
 //        String[] toRemove = {"test97", "test93"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
@@ -56,12 +56,12 @@ public class Tester {
 
             System.out.println("\nStarting compression of " + testDir);
             NewCompressor compressor = new NewCompressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
-            System.out.println("Dictionary:\n"+compressor.getDictionary());
             if(!compressor.run()){
                 System.out.println("Error while compressing");
                 System.exit(1);
             }
             System.out.println("Finished compressing");
+            //System.out.println("Dictionary:\n"+compressor.getDictionary());
 
             System.out.println("\nStarting decompression of " + testDir);
             NewDecompressor decompressor = new NewDecompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);

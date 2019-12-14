@@ -79,11 +79,12 @@ public class NewDecompressor {
 
                     if(command != ',') {
                         //mi trovo nella situazione 1
-                        mm = currentTable.getMismatchFromRefAndUpdate(ref);
+                        mm = currentTable.getNewMismatchFromRefAndUpdate(ref);
+                        mm.computeNewTarFromNewRef(ref);
                         mm.setOffset(offset);
                     } else {
                         int rowIndex = readIntegerAndUpdateCommand();
-                        mm = currentTable.getMismatchFromRefAndUpdate(ref, rowIndex);
+                        mm = currentTable.getNewMismatchFromRefAndUpdate(ref, rowIndex);
                         mm.setOffset(offset);
                     }
                 } else {

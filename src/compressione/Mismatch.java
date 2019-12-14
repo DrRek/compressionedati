@@ -22,6 +22,13 @@ class Mismatch{
         }
     }
 
+    Mismatch(Mismatch m){
+        this.ref=new ArrayList<>(m.getRef());
+        this.tar=new ArrayList<>(m.getTar());
+        this.offset = m.getOffset();
+        this.delta = m.getDelta();
+    }
+
     Mismatch(byte[] bytes, List<Short> d, int offset){
         this.ref = new ArrayList<>();
         for(byte b : bytes){
@@ -88,5 +95,11 @@ class Mismatch{
 
     public int getLen() {
         return ref.size();
+    }
+
+    void computeNewTarFromNewRef(byte[] ref) {
+        for(int i = 0; i<ref.length; i++){
+            tar.add((byte)(ref[i] - delta[i]));
+        }
     }
 }

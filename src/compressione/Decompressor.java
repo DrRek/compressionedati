@@ -72,14 +72,14 @@ class Decompressor {
                             //mi trovo nella situazione 1
                             int realOffset = (int)offset+c;;
                             byte[] ref = Arrays.copyOfRange(matchBuffer, realOffset, realOffset+len);
-                            mm = currentTable.getMismatchFromRefAndUpdate(ref);
+                            mm = currentTable.getNewMismatchFromRefAndUpdate(ref);
                             mm.setOffset(offset);
                         } else {
                             //mi trovo nella situazione 2
                             int rowIndex = (int) nextNumber();
                             int realOffset = (int) offset+c;
                             byte[] ref = Arrays.copyOfRange(matchBuffer, realOffset, realOffset+len);
-                            mm = currentTable.getMismatchFromRefAndUpdate(ref, rowIndex);
+                            mm = currentTable.getNewMismatchFromRefAndUpdate(ref, rowIndex);
                             mm.setOffset(offset);
                         }
                     } else {

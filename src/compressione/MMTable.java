@@ -66,7 +66,7 @@ class MMTable{
             table = table.subList(0, MMTable.MAX_SIZE);
     }
 
-    Mismatch getMismatchFromRefAndUpdate(byte[] sref) {
+    Mismatch getNewMismatchFromRefAndUpdate(byte[] sref) {
         StringBuilder res = new StringBuilder();
         for(byte b  : sref){
             res.append(b);
@@ -74,14 +74,14 @@ class MMTable{
         for(int i = 0; i < table.size(); i++)
             if(res.toString().equals(table.get(i).getRefAsString())){
                 updateEntry(i);
-                return table.get(0);
+                return new Mismatch(table.get(0));
             }
         System.out.println("Error: unable to find a missmatch from a sref "+ sref);
         return null;
     }
 
-    Mismatch getMismatchFromRefAndUpdate(byte[] sref, int index) {
+    Mismatch getNewMismatchFromRefAndUpdate(byte[] sref, int index) {
         updateEntry(index);
-        return table.get(0);
+        return new Mismatch(table.get(0));
     }
 }
