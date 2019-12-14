@@ -1,7 +1,7 @@
 run:
-	java -cp out/production/compressionedati/:externalLib/commons-lang3-3.9.jar compressione.Tester
+	java -cp out/production/compressionedati/:out/production/SeverZip/:externalLib/commons-lang3-3.9.jar compressione.Tester
 compile:
-	javac -d out/production/compressionedati/ -cp "src/compressione/:externalLib/commons-lang3-3.9.jar" src/compressione/*.java
+	javac -d out/production/compressionedati/ -cp "src/:externalLib/commons-lang3-3.9.jar" src/compressione/*.java
 cr:
 	make compile
 	make run
@@ -13,5 +13,5 @@ lzma:
 	make compilelzma
 	make runlzma
 all:
+	make compilelzma
 	make cr
-	make lzma

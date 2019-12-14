@@ -63,7 +63,7 @@ public class Tester {
             }
             System.out.println("Finished compressing");
 
-//            Encoder.main(new String[]{filenameTarget, testDir + "/output.7z"});
+            Encoder.main(new String[]{filenameTarget, testDir + "/output.7z"});
 
             System.out.println("\nStarting decompression of " + testDir);
             NewDecompressor decompressor = new NewDecompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
