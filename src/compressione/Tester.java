@@ -22,10 +22,10 @@ public class Tester {
 
     public static void main(String args[]) throws Exception {
 
-        int mmlen = 4;
+        int mmlen = 16;
 
         //Number of bytes that will correspond to length of the blocks pointed by the dict.
-        int c = 100;
+        int c = 512;
         if(args.length > 1){
             c = Integer.parseInt(args[0]);
         }
@@ -33,7 +33,7 @@ public class Tester {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-//        testFilesSrc = new String[]{"test97"};
+        testFilesSrc = new String[]{"Putty"};
 
 //        String[] toRemove = {"test97", "test93"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
