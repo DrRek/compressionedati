@@ -1,0 +1,588 @@
+[STARTING TESTS FOR C=1024 and MMLEN=32]
+	Testing file:Internet Explorer Web Browser	Iniziato alle: 2019-12-31T15:49:30.838
+reference size = 9413176 bytes, 9192.5546875  kb, 8.977104187011719 mb
+target size = 9296018 bytes, 9078.142578125  kb, 8.865373611450195 mb
+compressed size = 566411 bytes, 553.1357421875  kb, 0.5401716232299805 mb
+7z size = 572038 bytes, 558.630859375  kb, 0.5455379486083984 mb
+
+finito alle: 2019-12-31T15:57:32.157
+	Testing file:Skype	Iniziato alle: 2019-12-31T15:57:32.158
+reference size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+target size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2019-12-31T15:58:19.319
+	Testing file:VLC	Iniziato alle: 2019-12-31T15:58:19.320
+reference size = 22657136 bytes, 22126.109375  kb, 21.607528686523438 mb
+target size = 22617148 bytes, 22087.05859375  kb, 21.569393157958984 mb
+compressed size = 22474368 bytes, 21947.625  kb, 21.4332275390625 mb
+7z size = 22779432 bytes, 22245.5390625  kb, 21.724159240722656 mb
+
+finito alle: 2019-12-31T17:20:04.566
+	Testing file:_test88	Iniziato alle: 2019-12-31T17:20:04.566
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 96 bytes, 0.09375  kb, 9.1552734375E-5 mb
+compressed size = 100 bytes, 0.09765625  kb, 9.5367431640625E-5 mb
+7z size = 52 bytes, 0.05078125  kb, 4.9591064453125E-5 mb
+
+finito alle: 2019-12-31T17:20:04.825
+	Testing file:AVG antivirus	Iniziato alle: 2019-12-31T17:20:04.826
+reference size = 12298536 bytes, 12010.2890625  kb, 11.728797912597656 mb
+target size = 13235784 bytes, 12925.5703125  kb, 12.622627258300781 mb
+compressed size = 13131951 bytes, 12824.1708984375  kb, 12.523604393005371 mb
+7z size = 13305900 bytes, 12994.04296875  kb, 12.689495086669922 mb
+
+finito alle: 2019-12-31T17:49:11.337
+	Testing file:_test91	Iniziato alle: 2019-12-31T17:49:11.337
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+compressed size = 11 bytes, 0.0107421875  kb, 1.049041748046875E-5 mb
+7z size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+
+finito alle: 2019-12-31T17:49:11.383
+	Testing file:Putty	Iniziato alle: 2019-12-31T17:49:11.384
+reference size = 1098112 bytes, 1072.375  kb, 1.0472412109375 mb
+target size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+compressed size = 755586 bytes, 737.876953125  kb, 0.7205829620361328 mb
+7z size = 479102 bytes, 467.873046875  kb, 0.4569072723388672 mb
+
+finito alle: 2019-12-31T17:49:31.643
+	Testing file:_test94	Iniziato alle: 2019-12-31T17:49:31.643
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 97 bytes, 0.0947265625  kb, 9.250640869140625E-5 mb
+compressed size = 101 bytes, 0.0986328125  kb, 9.632110595703125E-5 mb
+7z size = 53 bytes, 0.0517578125  kb, 5.054473876953125E-5 mb
+
+finito alle: 2019-12-31T17:49:31.685
+	Testing file:_test90	Iniziato alle: 2019-12-31T17:49:31.685
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 50 bytes, 0.048828125  kb, 4.76837158203125E-5 mb
+compressed size = 54 bytes, 0.052734375  kb, 5.14984130859375E-5 mb
+7z size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+
+finito alle: 2019-12-31T17:49:31.711
+	Testing file:Sublime Text	Iniziato alle: 2019-12-31T17:49:31.711
+reference size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+target size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2019-12-31T17:50:20.984
+	Testing file:FileZilla	Iniziato alle: 2019-12-31T17:50:20.985
+reference size = 6387712 bytes, 6238.0  kb, 6.091796875 mb
+target size = 6320640 bytes, 6172.5  kb, 6.02783203125 mb
+compressed size = 4896964 bytes, 4782.19140625  kb, 4.670108795166016 mb
+7z size = 1385231 bytes, 1352.7646484375  kb, 1.321059226989746 mb
+
+finito alle: 2019-12-31T18:03:19.108
+	Testing file:Opera	Iniziato alle: 2019-12-31T18:03:19.109
+reference size = 10010624 bytes, 9776.0  kb, 9.546875 mb
+target size = 10027008 bytes, 9792.0  kb, 9.5625 mb
+compressed size = 6775913 bytes, 6617.1025390625  kb, 6.462014198303223 mb
+7z size = 6851114 bytes, 6690.541015625  kb, 6.533731460571289 mb
+
+finito alle: 2019-12-31T18:31:10.856
+	Testing file:_test97	Iniziato alle: 2019-12-31T18:31:10.856
+reference size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+target size = 1097104 bytes, 1071.390625  kb, 1.0462799072265625 mb
+compressed size = 570914 bytes, 557.533203125  kb, 0.5444660186767578 mb
+7z size = 367810 bytes, 359.189453125  kb, 0.3507709503173828 mb
+
+finito alle: 2019-12-31T18:31:30.147
+	Testing file:MINGW gcc	Iniziato alle: 2019-12-31T18:31:30.147
+reference size = 48071122 bytes, 46944.455078125  kb, 45.844194412231445 mb
+target size = 36802006 bytes, 35939.458984375  kb, 35.09712791442871 mb
+compressed size = 34626368 bytes, 33814.8125  kb, 33.02227783203125 mb
+7z size = 35045949 bytes, 34224.5595703125  kb, 33.4224214553833 mb
+
+finito alle: 2019-12-31T21:22:48.773
+	Testing file:_test96	Iniziato alle: 2019-12-31T21:22:48.773
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 27 bytes, 0.0263671875  kb, 2.574920654296875E-5 mb
+compressed size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+7z size = 49 bytes, 0.0478515625  kb, 4.673004150390625E-5 mb
+
+finito alle: 2019-12-31T21:22:48.811
+	Testing file:_test92	Iniziato alle: 2019-12-31T21:22:48.811
+reference size = 0 bytes, 0.0  kb, 0.0 mb
+target size = 19 bytes, 0.0185546875  kb, 1.811981201171875E-5 mb
+compressed size = 23 bytes, 0.0224609375  kb, 2.193450927734375E-5 mb
+7z size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+
+finito alle: 2019-12-31T21:22:48.861
+	Testing file:_test95	Iniziato alle: 2019-12-31T21:22:48.861
+reference size = 18 bytes, 0.017578125  kb, 1.71661376953125E-5 mb
+target size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+compressed size = 41 bytes, 0.0400390625  kb, 3.910064697265625E-5 mb
+7z size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+
+finito alle: 2019-12-31T21:22:49.082
+	Testing file:_test99	Iniziato alle: 2019-12-31T21:22:49.083
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+compressed size = 12 bytes, 0.01171875  kb, 1.1444091796875E-5 mb
+7z size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+
+finito alle: 2019-12-31T21:22:49.161
+	Testing file:_test89	Iniziato alle: 2019-12-31T21:22:49.162
+reference size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+target size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+compressed size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+7z size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+
+finito alle: 2019-12-31T21:22:49.174
+	Testing file:_test93	Iniziato alle: 2019-12-31T21:22:49.174
+reference size = 506304 bytes, 494.4375  kb, 0.48284912109375 mb
+target size = 502419 bytes, 490.6435546875  kb, 0.4791440963745117 mb
+compressed size = 387563 bytes, 378.4794921875  kb, 0.36960887908935547 mb
+7z size = 95874 bytes, 93.626953125  kb, 0.09143257141113281 mb
+
+finito alle: 2019-12-31T21:22:55.677
+	Testing file:Mozilla Firefox	Iniziato alle: 2019-12-31T21:22:55.678
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5854968 bytes, 5717.7421875  kb, 5.583732604980469 mb
+7z size = 5932991 bytes, 5793.9365234375  kb, 5.658141136169434 mb
+
+finito alle: 2019-12-31T21:33:37.378
+	Testing file:Notepad++	Iniziato alle: 2019-12-31T21:33:37.378
+reference size = 2913234 bytes, 2844.955078125  kb, 2.7782764434814453 mb
+target size = 3018868 bytes, 2948.11328125  kb, 2.879016876220703 mb
+compressed size = 764888 bytes, 746.9609375  kb, 0.7294540405273438 mb
+7z size = 767342 bytes, 749.357421875  kb, 0.7317943572998047 mb
+
+finito alle: 2019-12-31T21:36:38.330
+	Testing file:AdobeReader	Iniziato alle: 2019-12-31T21:36:38.330
+reference size = 21822168 bytes, 21310.7109375  kb, 20.811241149902344 mb
+target size = 23402288 bytes, 22853.796875  kb, 22.318161010742188 mb
+compressed size = 23098316 bytes, 22556.94921875  kb, 22.028270721435547 mb
+7z size = 23404733 bytes, 22856.1845703125  kb, 22.3204927444458 mb
+
+finito alle: 2019-12-31T23:05:18.002
+	Testing file:_test98	Iniziato alle: 2019-12-31T23:05:18.003
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+compressed size = 35 bytes, 0.0341796875  kb, 3.337860107421875E-5 mb
+7z size = 46 bytes, 0.044921875  kb, 4.38690185546875E-5 mb
+
+finito alle: 2019-12-31T23:05:18.071
+[STARTING TESTS FOR C=1024 and MMLEN=16]
+	Testing file:Internet Explorer Web Browser	Iniziato alle: 2019-12-31T23:05:18.076
+reference size = 9413176 bytes, 9192.5546875  kb, 8.977104187011719 mb
+target size = 9296018 bytes, 9078.142578125  kb, 8.865373611450195 mb
+compressed size = 566411 bytes, 553.1357421875  kb, 0.5401716232299805 mb
+7z size = 572038 bytes, 558.630859375  kb, 0.5455379486083984 mb
+
+finito alle: 2019-12-31T23:39:31.954
+	Testing file:Skype	Iniziato alle: 2019-12-31T23:39:31.954
+reference size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+target size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2019-12-31T23:40:22.787
+	Testing file:VLC	Iniziato alle: 2019-12-31T23:40:22.787
+reference size = 22657136 bytes, 22126.109375  kb, 21.607528686523438 mb
+target size = 22617148 bytes, 22087.05859375  kb, 21.569393157958984 mb
+compressed size = 22474368 bytes, 21947.625  kb, 21.4332275390625 mb
+7z size = 22779432 bytes, 22245.5390625  kb, 21.724159240722656 mb
+
+finito alle: 2020-01-01T01:45:52.196
+	Testing file:_test88	Iniziato alle: 2020-01-01T01:45:52.197
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 96 bytes, 0.09375  kb, 9.1552734375E-5 mb
+compressed size = 100 bytes, 0.09765625  kb, 9.5367431640625E-5 mb
+7z size = 52 bytes, 0.05078125  kb, 4.9591064453125E-5 mb
+
+finito alle: 2020-01-01T01:45:52.238
+	Testing file:AVG antivirus	Iniziato alle: 2020-01-01T01:45:52.238
+reference size = 12298536 bytes, 12010.2890625  kb, 11.728797912597656 mb
+target size = 13235784 bytes, 12925.5703125  kb, 12.622627258300781 mb
+compressed size = 13132461 bytes, 12824.6689453125  kb, 12.524090766906738 mb
+7z size = 13306013 bytes, 12994.1533203125  kb, 12.689602851867676 mb
+
+finito alle: 2020-01-01T02:24:24.777
+	Testing file:_test91	Iniziato alle: 2020-01-01T02:24:24.777
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+compressed size = 11 bytes, 0.0107421875  kb, 1.049041748046875E-5 mb
+7z size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+
+finito alle: 2020-01-01T02:24:24.786
+	Testing file:Putty	Iniziato alle: 2020-01-01T02:24:24.787
+reference size = 1098112 bytes, 1072.375  kb, 1.0472412109375 mb
+target size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+compressed size = 741005 bytes, 723.6376953125  kb, 0.7066774368286133 mb
+7z size = 476587 bytes, 465.4169921875  kb, 0.45450878143310547 mb
+
+finito alle: 2020-01-01T02:24:44.213
+	Testing file:_test94	Iniziato alle: 2020-01-01T02:24:44.213
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 97 bytes, 0.0947265625  kb, 9.250640869140625E-5 mb
+compressed size = 101 bytes, 0.0986328125  kb, 9.632110595703125E-5 mb
+7z size = 53 bytes, 0.0517578125  kb, 5.054473876953125E-5 mb
+
+finito alle: 2020-01-01T02:24:44.223
+	Testing file:_test90	Iniziato alle: 2020-01-01T02:24:44.223
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 50 bytes, 0.048828125  kb, 4.76837158203125E-5 mb
+compressed size = 54 bytes, 0.052734375  kb, 5.14984130859375E-5 mb
+7z size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+
+finito alle: 2020-01-01T02:24:44.242
+	Testing file:Sublime Text	Iniziato alle: 2020-01-01T02:24:44.242
+reference size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+target size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2020-01-01T02:25:35.586
+	Testing file:FileZilla	Iniziato alle: 2020-01-01T02:25:35.587
+reference size = 6387712 bytes, 6238.0  kb, 6.091796875 mb
+target size = 6320640 bytes, 6172.5  kb, 6.02783203125 mb
+compressed size = 4801537 bytes, 4689.0009765625  kb, 4.579102516174316 mb
+7z size = 1355014 bytes, 1323.255859375  kb, 1.2922420501708984 mb
+
+finito alle: 2020-01-01T02:37:56.185
+	Testing file:Opera	Iniziato alle: 2020-01-01T02:37:56.185
+reference size = 10010624 bytes, 9776.0  kb, 9.546875 mb
+target size = 10027008 bytes, 9792.0  kb, 9.5625 mb
+compressed size = 6775792 bytes, 6616.984375  kb, 6.4618988037109375 mb
+7z size = 6851104 bytes, 6690.53125  kb, 6.533721923828125 mb
+
+finito alle: 2020-01-01T02:58:14.194
+	Testing file:_test97	Iniziato alle: 2020-01-01T02:58:14.194
+reference size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+target size = 1097104 bytes, 1071.390625  kb, 1.0462799072265625 mb
+compressed size = 519765 bytes, 507.5830078125  kb, 0.49568653106689453 mb
+7z size = 353912 bytes, 345.6171875  kb, 0.33751678466796875 mb
+
+finito alle: 2020-01-01T02:58:32.918
+	Testing file:MINGW gcc	Iniziato alle: 2020-01-01T02:58:32.918
+reference size = 48071122 bytes, 46944.455078125  kb, 45.844194412231445 mb
+target size = 36802006 bytes, 35939.458984375  kb, 35.09712791442871 mb
+compressed size = 34609264 bytes, 33798.109375  kb, 33.00596618652344 mb
+7z size = 35030246 bytes, 34209.224609375  kb, 33.40744590759277 mb
+
+finito alle: 2020-01-01T05:50:29.838
+	Testing file:_test96	Iniziato alle: 2020-01-01T05:50:29.838
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 27 bytes, 0.0263671875  kb, 2.574920654296875E-5 mb
+compressed size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+7z size = 49 bytes, 0.0478515625  kb, 4.673004150390625E-5 mb
+
+finito alle: 2020-01-01T05:50:29.847
+	Testing file:_test92	Iniziato alle: 2020-01-01T05:50:29.847
+reference size = 0 bytes, 0.0  kb, 0.0 mb
+target size = 19 bytes, 0.0185546875  kb, 1.811981201171875E-5 mb
+compressed size = 23 bytes, 0.0224609375  kb, 2.193450927734375E-5 mb
+7z size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+
+finito alle: 2020-01-01T05:50:29.865
+	Testing file:_test95	Iniziato alle: 2020-01-01T05:50:29.865
+reference size = 18 bytes, 0.017578125  kb, 1.71661376953125E-5 mb
+target size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+compressed size = 41 bytes, 0.0400390625  kb, 3.910064697265625E-5 mb
+7z size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+
+finito alle: 2020-01-01T05:50:29.878
+	Testing file:_test99	Iniziato alle: 2020-01-01T05:50:29.878
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+compressed size = 12 bytes, 0.01171875  kb, 1.1444091796875E-5 mb
+7z size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+
+finito alle: 2020-01-01T05:50:29.889
+	Testing file:_test89	Iniziato alle: 2020-01-01T05:50:29.889
+reference size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+target size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+compressed size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+7z size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+
+finito alle: 2020-01-01T05:50:29.902
+	Testing file:_test93	Iniziato alle: 2020-01-01T05:50:29.903
+reference size = 506304 bytes, 494.4375  kb, 0.48284912109375 mb
+target size = 502419 bytes, 490.6435546875  kb, 0.4791440963745117 mb
+compressed size = 386486 bytes, 377.427734375  kb, 0.36858177185058594 mb
+7z size = 95336 bytes, 93.1015625  kb, 0.09091949462890625 mb
+
+finito alle: 2020-01-01T05:50:36.392
+	Testing file:Mozilla Firefox	Iniziato alle: 2020-01-01T05:50:36.392
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5854968 bytes, 5717.7421875  kb, 5.583732604980469 mb
+7z size = 5932991 bytes, 5793.9365234375  kb, 5.658141136169434 mb
+
+finito alle: 2020-01-01T06:01:19.003
+	Testing file:Notepad++	Iniziato alle: 2020-01-01T06:01:19.004
+reference size = 2913234 bytes, 2844.955078125  kb, 2.7782764434814453 mb
+target size = 3018868 bytes, 2948.11328125  kb, 2.879016876220703 mb
+compressed size = 764826 bytes, 746.900390625  kb, 0.7293949127197266 mb
+7z size = 767326 bytes, 749.341796875  kb, 0.7317790985107422 mb
+
+finito alle: 2020-01-01T06:04:12.740
+	Testing file:AdobeReader	Iniziato alle: 2020-01-01T06:04:12.741
+reference size = 21822168 bytes, 21310.7109375  kb, 20.811241149902344 mb
+target size = 23402288 bytes, 22853.796875  kb, 22.318161010742188 mb
+compressed size = 23098276 bytes, 22556.91015625  kb, 22.02823257446289 mb
+7z size = 23404730 bytes, 22856.181640625  kb, 22.32048988342285 mb
+
+finito alle: 2020-01-01T07:35:40.479
+	Testing file:_test98	Iniziato alle: 2020-01-01T07:35:40.479
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+compressed size = 35 bytes, 0.0341796875  kb, 3.337860107421875E-5 mb
+7z size = 46 bytes, 0.044921875  kb, 4.38690185546875E-5 mb
+
+finito alle: 2020-01-01T07:35:40.488
+[STARTING TESTS FOR C=512 and MMLEN=16]
+	Testing file:Internet Explorer Web Browser	Iniziato alle: 2020-01-01T07:35:40.489
+reference size = 9413176 bytes, 9192.5546875  kb, 8.977104187011719 mb
+target size = 9296018 bytes, 9078.142578125  kb, 8.865373611450195 mb
+compressed size = 564363 bytes, 551.1357421875  kb, 0.5382184982299805 mb
+7z size = 570009 bytes, 556.6494140625  kb, 0.5436029434204102 mb
+
+finito alle: 2020-01-01T08:37:40.603
+	Testing file:Skype	Iniziato alle: 2020-01-01T08:37:40.604
+reference size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+target size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2020-01-01T08:39:12.035
+	Testing file:VLC	Iniziato alle: 2020-01-01T08:39:12.035
+reference size = 22657136 bytes, 22126.109375  kb, 21.607528686523438 mb
+target size = 22617148 bytes, 22087.05859375  kb, 21.569393157958984 mb
+compressed size = 22474368 bytes, 21947.625  kb, 21.4332275390625 mb
+7z size = 22779431 bytes, 22245.5380859375  kb, 21.72415828704834 mb
+
+finito alle: 2020-01-01T11:09:31.583
+	Testing file:_test88	Iniziato alle: 2020-01-01T11:09:31.583
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 96 bytes, 0.09375  kb, 9.1552734375E-5 mb
+compressed size = 100 bytes, 0.09765625  kb, 9.5367431640625E-5 mb
+7z size = 52 bytes, 0.05078125  kb, 4.9591064453125E-5 mb
+
+finito alle: 2020-01-01T11:09:31.593
+	Testing file:AVG antivirus	Iniziato alle: 2020-01-01T11:09:31.593
+reference size = 12298536 bytes, 12010.2890625  kb, 11.728797912597656 mb
+target size = 13235784 bytes, 12925.5703125  kb, 12.622627258300781 mb
+compressed size = 13130944 bytes, 12823.1875  kb, 12.52264404296875 mb
+7z size = 13305671 bytes, 12993.8193359375  kb, 12.689276695251465 mb
+
+finito alle: 2020-01-01T11:59:51.653
+	Testing file:_test91	Iniziato alle: 2020-01-01T11:59:51.654
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+compressed size = 11 bytes, 0.0107421875  kb, 1.049041748046875E-5 mb
+7z size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+
+finito alle: 2020-01-01T11:59:51.662
+	Testing file:Putty	Iniziato alle: 2020-01-01T11:59:51.662
+reference size = 1098112 bytes, 1072.375  kb, 1.0472412109375 mb
+target size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+compressed size = 702292 bytes, 685.83203125  kb, 0.6697578430175781 mb
+7z size = 453944 bytes, 443.3046875  kb, 0.43291473388671875 mb
+
+finito alle: 2020-01-01T12:00:26.441
+	Testing file:_test94	Iniziato alle: 2020-01-01T12:00:26.441
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 97 bytes, 0.0947265625  kb, 9.250640869140625E-5 mb
+compressed size = 101 bytes, 0.0986328125  kb, 9.632110595703125E-5 mb
+7z size = 53 bytes, 0.0517578125  kb, 5.054473876953125E-5 mb
+
+finito alle: 2020-01-01T12:00:26.461
+	Testing file:_test90	Iniziato alle: 2020-01-01T12:00:26.461
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 50 bytes, 0.048828125  kb, 4.76837158203125E-5 mb
+compressed size = 54 bytes, 0.052734375  kb, 5.14984130859375E-5 mb
+7z size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+
+finito alle: 2020-01-01T12:00:26.473
+	Testing file:Sublime Text	Iniziato alle: 2020-01-01T12:00:26.473
+reference size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+target size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2020-01-01T12:01:50.681
+	Testing file:FileZilla	Iniziato alle: 2020-01-01T12:01:50.681
+reference size = 6387712 bytes, 6238.0  kb, 6.091796875 mb
+target size = 6320640 bytes, 6172.5  kb, 6.02783203125 mb
+compressed size = 4093076 bytes, 3997.14453125  kb, 3.903461456298828 mb
+7z size = 1126357 bytes, 1099.9580078125  kb, 1.0741777420043945 mb
+
+finito alle: 2020-01-01T12:25:06.280
+	Testing file:Opera	Iniziato alle: 2020-01-01T12:25:06.281
+reference size = 10010624 bytes, 9776.0  kb, 9.546875 mb
+target size = 10027008 bytes, 9792.0  kb, 9.5625 mb
+compressed size = 6767231 bytes, 6608.6240234375  kb, 6.453734397888184 mb
+7z size = 6842424 bytes, 6682.0546875  kb, 6.525444030761719 mb
+
+finito alle: 2020-01-01T13:21:23.049
+	Testing file:_test97	Iniziato alle: 2020-01-01T13:21:23.049
+reference size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+target size = 1097104 bytes, 1071.390625  kb, 1.0462799072265625 mb
+compressed size = 505519 bytes, 493.6708984375  kb, 0.4821004867553711 mb
+7z size = 347106 bytes, 338.970703125  kb, 0.3310260772705078 mb
+
+finito alle: 2020-01-01T13:21:57.160
+	Testing file:MINGW gcc	Iniziato alle: 2020-01-01T13:21:57.161
+reference size = 48071122 bytes, 46944.455078125  kb, 45.844194412231445 mb
+target size = 36802006 bytes, 35939.458984375  kb, 35.09712791442871 mb
+compressed size = 34606150 bytes, 33795.068359375  kb, 33.00299644470215 mb
+7z size = 35029087 bytes, 34208.0927734375  kb, 33.40634059906006 mb
+
+finito alle: 2020-01-01T20:24:40.510
+	Testing file:_test96	Iniziato alle: 2020-01-01T20:24:40.511
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 27 bytes, 0.0263671875  kb, 2.574920654296875E-5 mb
+compressed size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+7z size = 49 bytes, 0.0478515625  kb, 4.673004150390625E-5 mb
+
+finito alle: 2020-01-01T20:24:40.519
+	Testing file:_test92	Iniziato alle: 2020-01-01T20:24:40.519
+reference size = 0 bytes, 0.0  kb, 0.0 mb
+target size = 19 bytes, 0.0185546875  kb, 1.811981201171875E-5 mb
+compressed size = 23 bytes, 0.0224609375  kb, 2.193450927734375E-5 mb
+7z size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+
+finito alle: 2020-01-01T20:24:40.528
+	Testing file:_test95	Iniziato alle: 2020-01-01T20:24:40.528
+reference size = 18 bytes, 0.017578125  kb, 1.71661376953125E-5 mb
+target size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+compressed size = 41 bytes, 0.0400390625  kb, 3.910064697265625E-5 mb
+7z size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+
+finito alle: 2020-01-01T20:24:40.554
+	Testing file:_test99	Iniziato alle: 2020-01-01T20:24:40.554
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+compressed size = 12 bytes, 0.01171875  kb, 1.1444091796875E-5 mb
+7z size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+
+finito alle: 2020-01-01T20:24:40.566
+	Testing file:_test89	Iniziato alle: 2020-01-01T20:24:40.566
+reference size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+target size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+compressed size = 30 bytes, 0.029296875  kb, 2.86102294921875E-5 mb
+7z size = 37 bytes, 0.0361328125  kb, 3.528594970703125E-5 mb
+
+finito alle: 2020-01-01T20:24:40.579
+	Testing file:_test93	Iniziato alle: 2020-01-01T20:24:40.580
+reference size = 506304 bytes, 494.4375  kb, 0.48284912109375 mb
+target size = 502419 bytes, 490.6435546875  kb, 0.4791440963745117 mb
+compressed size = 365589 bytes, 357.0205078125  kb, 0.34865283966064453 mb
+7z size = 90507 bytes, 88.3857421875  kb, 0.08631420135498047 mb
+
+finito alle: 2020-01-01T20:24:47.802
+	Testing file:Mozilla Firefox	Iniziato alle: 2020-01-01T20:24:47.802
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5853434 bytes, 5716.244140625  kb, 5.582269668579102 mb
+7z size = 5931902 bytes, 5792.873046875  kb, 5.657102584838867 mb
+
+finito alle: 2020-01-01T20:43:36.770
+	Testing file:Notepad++	Iniziato alle: 2020-01-01T20:43:36.770
+reference size = 2913234 bytes, 2844.955078125  kb, 2.7782764434814453 mb
+target size = 3018868 bytes, 2948.11328125  kb, 2.879016876220703 mb
+compressed size = 763977 bytes, 746.0712890625  kb, 0.7285852432250977 mb
+7z size = 766460 bytes, 748.49609375  kb, 0.7309532165527344 mb
+
+finito alle: 2020-01-01T20:49:39.583
+	Testing file:AdobeReader	Iniziato alle: 2020-01-01T20:49:39.583
+reference size = 21822168 bytes, 21310.7109375  kb, 20.811241149902344 mb
+target size = 23402288 bytes, 22853.796875  kb, 22.318161010742188 mb
+compressed size = 23096346 bytes, 22555.025390625  kb, 22.026391983032227 mb
+7z size = 23404025 bytes, 22855.4931640625  kb, 22.319817543029785 mb
+
+finito alle: 2020-01-02T00:43:48.320
+	Testing file:_test98	Iniziato alle: 2020-01-02T00:43:48.320
+reference size = 9 bytes, 0.0087890625  kb, 8.58306884765625E-6 mb
+target size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+compressed size = 35 bytes, 0.0341796875  kb, 3.337860107421875E-5 mb
+7z size = 46 bytes, 0.044921875  kb, 4.38690185546875E-5 mb
+
+finito alle: 2020-01-02T00:43:48.329
+[STARTING TESTS FOR C=256 and MMLEN=16]
+	Testing file:Internet Explorer Web Browser	Iniziato alle: 2020-01-02T00:43:48.329
+reference size = 9413176 bytes, 9192.5546875  kb, 8.977104187011719 mb
+target size = 9296018 bytes, 9078.142578125  kb, 8.865373611450195 mb
+compressed size = 563622 bytes, 550.412109375  kb, 0.5375118255615234 mb
+7z size = 569456 bytes, 556.109375  kb, 0.5430755615234375 mb
+
+finito alle: 2020-01-02T02:18:41.203
+	Testing file:Skype	Iniziato alle: 2020-01-02T02:18:41.203
+reference size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+target size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2020-01-02T02:21:17.409
+	Testing file:VLC	Iniziato alle: 2020-01-02T02:21:17.409
+reference size = 22657136 bytes, 22126.109375  kb, 21.607528686523438 mb
+target size = 22617148 bytes, 22087.05859375  kb, 21.569393157958984 mb
+compressed size = 22474368 bytes, 21947.625  kb, 21.4332275390625 mb
+7z size = 22779434 bytes, 22245.541015625  kb, 21.72416114807129 mb
+
+finito alle: 2020-01-02T05:26:58.315
+	Testing file:_test88	Iniziato alle: 2020-01-02T05:26:58.315
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 96 bytes, 0.09375  kb, 9.1552734375E-5 mb
+compressed size = 100 bytes, 0.09765625  kb, 9.5367431640625E-5 mb
+7z size = 52 bytes, 0.05078125  kb, 4.9591064453125E-5 mb
+
+finito alle: 2020-01-02T05:26:58.324
+	Testing file:AVG antivirus	Iniziato alle: 2020-01-02T05:26:58.324
+reference size = 12298536 bytes, 12010.2890625  kb, 11.728797912597656 mb
+target size = 13235784 bytes, 12925.5703125  kb, 12.622627258300781 mb
+compressed size = 13127342 bytes, 12819.669921875  kb, 12.519208908081055 mb
+7z size = 13301958 bytes, 12990.193359375  kb, 12.685735702514648 mb
+
+finito alle: 2020-01-02T08:03:15.626
+	Testing file:_test91	Iniziato alle: 2020-01-02T08:03:15.626
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+compressed size = 11 bytes, 0.0107421875  kb, 1.049041748046875E-5 mb
+7z size = 26 bytes, 0.025390625  kb, 2.47955322265625E-5 mb
+
+finito alle: 2020-01-02T08:03:15.634
+	Testing file:Putty	Iniziato alle: 2020-01-02T08:03:15.634
+reference size = 1098112 bytes, 1072.375  kb, 1.0472412109375 mb
+target size = 1096080 bytes, 1070.390625  kb, 1.0453033447265625 mb
+compressed size = 641516 bytes, 626.48046875  kb, 0.6117973327636719 mb
+7z size = 409086 bytes, 399.498046875  kb, 0.3901348114013672 mb
+
+finito alle: 2020-01-02T08:04:34.953
+	Testing file:_test94	Iniziato alle: 2020-01-02T08:04:34.953
+reference size = 4 bytes, 0.00390625  kb, 3.814697265625E-6 mb
+target size = 97 bytes, 0.0947265625  kb, 9.250640869140625E-5 mb
+compressed size = 101 bytes, 0.0986328125  kb, 9.632110595703125E-5 mb
+7z size = 53 bytes, 0.0517578125  kb, 5.054473876953125E-5 mb
+
+finito alle: 2020-01-02T08:04:34.962
+	Testing file:_test90	Iniziato alle: 2020-01-02T08:04:34.962
+reference size = 8 bytes, 0.0078125  kb, 7.62939453125E-6 mb
+target size = 50 bytes, 0.048828125  kb, 4.76837158203125E-5 mb
+compressed size = 54 bytes, 0.052734375  kb, 5.14984130859375E-5 mb
+7z size = 31 bytes, 0.0302734375  kb, 2.956390380859375E-5 mb
+
+finito alle: 2020-01-02T08:04:34.970
+	Testing file:Sublime Text	Iniziato alle: 2020-01-02T08:04:34.971
+reference size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+target size = 3032824 bytes, 2961.7421875  kb, 2.8923263549804688 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+
+finito alle: 2020-01-02T08:07:00.760
+	Testing file:FileZilla	Iniziato alle: 2020-01-02T08:07:00.760
+reference size = 6387712 bytes, 6238.0  kb, 6.091796875 mb
+target size = 6320640 bytes, 6172.5  kb, 6.02783203125 mb
+compressed size = 3290164 bytes, 3213.05078125  kb, 3.137744903564453 mb
+7z size = 885662 bytes, 864.904296875  kb, 0.8446331024169922 mb
+
+finito alle: 2020-01-02T08:43:58.346
+	Testing file:Opera	Iniziato alle: 2020-01-02T08:43:58.346
+[STARTING TESTS FOR C=1024 and MMLEN=32]
+	Testing file:Internet Explorer Web Browser	Iniziato alle: 2020-01-02T10:17:43.317

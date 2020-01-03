@@ -1,0 +1,9 @@
+	Iniziato test globale del file alle: 2020-01-02T10:22:11.612
+
+test with c = 16 and mmlen = 256
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5859882 bytes, 5722.541015625  kb, 5.588418960571289 mb
+7z size = 5932913 bytes, 5793.8603515625  kb, 5.658066749572754 mb
+finito alle: 2020-01-03T02:03:44.750
+

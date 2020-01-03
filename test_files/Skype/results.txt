@@ -1,0 +1,16 @@
+	Iniziato test globale del file alle: 2020-01-02T10:22:10.621
+
+test with c = 16 and mmlen = 256
+reference size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+target size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+finito alle: 2020-01-02T14:49:50.167
+
+test with c = 8 and mmlen = 256
+reference size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+target size = 3064832 bytes, 2993.0  kb, 2.9228515625 mb
+compressed size = 10 bytes, 0.009765625  kb, 9.5367431640625E-6 mb
+7z size = 28 bytes, 0.02734375  kb, 2.6702880859375E-5 mb
+finito alle: 2020-01-03T09:05:22.454
+

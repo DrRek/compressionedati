@@ -4,11 +4,14 @@ import SevenZip.Encoder;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.FieldPosition;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.util.*;
 
 public class Tester {
+    private static BufferedWriter writer;
 
     public static String[] iterateOverTestFiles(String path){
         File file = new File(path);
@@ -22,18 +25,33 @@ public class Tester {
 
     public static void main(String args[]) throws Exception {
 
-        int mmlen = 16;
+         writer = new BufferedWriter(new FileWriter("resultsFile.txt", true));
 
-        //Number of bytes that will correspond to length of the blocks pointed by the dict.
-        int c = 512;
-        if(args.length > 1){
-            c = Integer.parseInt(args[0]);
+        int[] insiemeDiC        = new int[]{ 1024, 1024, 512, 256, 256, 128};
+        int[] insiemeDiMMLEN    = new int[]{   32,   16,  16,  16,   8,   8};
+
+        for(int i = 0; i<insiemeDiC.length; i++){
+            int c = insiemeDiC[i];
+            int mmlen = insiemeDiMMLEN[i];
+            writer.write("[STARTING TESTS FOR C="+c+" and MMLEN="+mmlen+"]\n");
+            writer.flush();
+            iniziaWajo(c, mmlen);
+            System.out.println("Done "+(i+1)+"/"+insiemeDiC.length);
         }
 
+        writer.newLine();
+        writer.newLine();
+        writer.newLine();
+        writer.close();
+
+
+    }
+
+    private static void iniziaWajo(int c, int mmlen) throws Exception {
         String basePath = "test_files/";
         String[] testFilesSrc = iterateOverTestFiles(basePath);
 
-        testFilesSrc = new String[]{"Putty"};
+//        testFilesSrc = new String[]{"Putty"};
 
 //        String[] toRemove = {"test97", "test93"};
 //        List<String> s1List = new ArrayList(Arrays.asList(toRemove));
@@ -48,12 +66,19 @@ public class Tester {
 //        testFilesSrc = s1List.toArray(testFilesSrc);
 
         for(String dir : testFilesSrc){
+
+            writer.write("\tTesting file:"+dir);
+            writer.write("\tIniziato alle: ");
+            printDate();
+            writer.newLine();
+            writer.flush();
             String testDir = basePath+dir;
 
             String filenameReference = testDir+"/input.reference";
             String filenameTarget = testDir+"/input.target";
             String filenameCompressed = testDir+"/output.compressed";
             String filenameDecompressed = testDir+"/output.decompressed";
+            String filename7z = testDir + "/output.7z";
 
             System.out.println("\nStarting compression of " + testDir);
             NewCompressor compressor = new NewCompressor(c, mmlen, filenameReference, filenameTarget, filenameCompressed);
@@ -63,7 +88,7 @@ public class Tester {
             }
             System.out.println("Finished compressing");
 
-            Encoder.main(new String[]{filenameTarget, testDir + "/output.7z"});
+            Encoder.main(new String[]{filenameCompressed, filename7z});
 
             System.out.println("\nStarting decompression of " + testDir);
             NewDecompressor decompressor = new NewDecompressor(c, mmlen, filenameReference, filenameCompressed, filenameDecompressed);
@@ -86,12 +111,49 @@ public class Tester {
                 }
             }
 
-            if(equals)
+            if(equals){
+                String out = getFormattedFileSize(filenameReference);
+                writer.write("reference "+out);
+                out = getFormattedFileSize(filenameTarget);
+                writer.write("target "+out);
+                out = getFormattedFileSize(filenameCompressed);
+                writer.write("compressed "+out);
+                out = getFormattedFileSize(filename7z);
+                writer.write("7z "+out);
+                writer.write("finito alle: ");
+                printDate();
+
                 System.out.println("\nFiles are identical!");
-            else {
-                System.exit(1);
+            } else {
+                writer.write("ERROR FOR THIS FILE");
                 System.err.println("\nFiles are NOT identical");
             }
+            writer.newLine();
+            writer.newLine();
+            writer.flush();
         }
+    }
+
+    private static String getFormattedFileSize(String filenameReference) {
+        File one = new File(filenameReference);
+        return "size = "+getFileSizeBytes(one) +", "+getFileSizeKiloBytes(one)+", "+getFileSizeMegaBytes(one)+"\n";
+
+    }
+
+    private static String getFileSizeMegaBytes(File file) {
+        return (double) file.length() / (1024 * 1024) + " mb";
+    }
+
+    private static String getFileSizeKiloBytes(File file) {
+        return (double) file.length() / 1024 + "  kb";
+    }
+
+    private static String getFileSizeBytes(File file) {
+        return file.length() + " bytes";
+    }
+
+    private static void printDate() throws IOException {
+        String format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH).format(new Date());
+        writer.write(format1);
     }
 }
