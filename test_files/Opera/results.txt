@@ -1,2 +1,34 @@
 	Iniziato test globale del file alle: 2020-01-02T10:22:10.616
 
+	Iniziato test globale del file alle: 2020-01-03T22:00:09.846
+
+
+
+	Iniziato test globale del file alle: 2020-01-03T22:01:43.636
+
+
+
+	Iniziato test globale del file alle: 2020-01-03T22:02:14.640
+
+test with c = 128 and mmlen = 8
+reference size = 10010624 bytes, 9776.0  kb, 9.546875 mb
+target size = 10027008 bytes, 9792.0  kb, 9.5625 mb
+compressed size = 6761526 bytes, 6603.052734375  kb, 6.448293685913086 mb
+7z size = 6838111 bytes, 6677.8427734375  kb, 6.521330833435059 mb
+finito alle: 2020-01-03T22:25:05.762
+
+test with c = 64 and mmlen = 8
+reference size = 10010624 bytes, 9776.0  kb, 9.546875 mb
+target size = 10027008 bytes, 9792.0  kb, 9.5625 mb
+compressed size = 6759967 bytes, 6601.5302734375  kb, 6.446806907653809 mb
+7z size = 6836461 bytes, 6676.2314453125  kb, 6.519757270812988 mb
+finito alle: 2020-01-03T23:30:23.589
+
+test with c = 64 and mmlen = 16
+reference size = 10010624 bytes, 9776.0  kb, 9.546875 mb
+target size = 10027008 bytes, 9792.0  kb, 9.5625 mb
+compressed size = 6760259 bytes, 6601.8154296875  kb, 6.447085380554199 mb
+7z size = 6836566 bytes, 6676.333984375  kb, 6.519857406616211 mb
+finito alle: 2020-01-04T00:05:23.214
+
+	Finito test globale del file alle: 2020-01-04T00:05:23.214

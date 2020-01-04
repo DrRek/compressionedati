@@ -7,3 +7,35 @@ compressed size = 5859882 bytes, 5722.541015625  kb, 5.588418960571289 mb
 7z size = 5932913 bytes, 5793.8603515625  kb, 5.658066749572754 mb
 finito alle: 2020-01-03T02:03:44.750
 
+	Iniziato test globale del file alle: 2020-01-03T22:00:09.843
+
+
+
+	Iniziato test globale del file alle: 2020-01-03T22:01:43.628
+
+
+
+	Iniziato test globale del file alle: 2020-01-03T22:02:14.640
+
+test with c = 128 and mmlen = 8
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5851910 bytes, 5714.755859375  kb, 5.580816268920898 mb
+7z size = 5930816 bytes, 5791.8125  kb, 5.65606689453125 mb
+finito alle: 2020-01-03T22:03:18.705
+
+test with c = 64 and mmlen = 8
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5851483 bytes, 5714.3388671875  kb, 5.580409049987793 mb
+7z size = 5930655 bytes, 5791.6552734375  kb, 5.655913352966309 mb
+finito alle: 2020-01-03T22:05:23.462
+
+test with c = 64 and mmlen = 16
+reference size = 6050760 bytes, 5908.9453125  kb, 5.770454406738281 mb
+target size = 6048152 bytes, 5906.3984375  kb, 5.767967224121094 mb
+compressed size = 5851589 bytes, 5714.4423828125  kb, 5.580510139465332 mb
+7z size = 5930701 bytes, 5791.7001953125  kb, 5.655957221984863 mb
+finito alle: 2020-01-03T22:07:35.653
+
+	Finito test globale del file alle: 2020-01-03T22:07:35.654

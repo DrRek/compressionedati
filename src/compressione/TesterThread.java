@@ -27,8 +27,8 @@ public class TesterThread {
 
         writer = new BufferedWriter(new FileWriter("resultsFile.txt", true));
 
-        int[] insiemeDiC        = new int[]{ 256, 256, 128, 512 };
-        int[] insiemeDiMMLEN    = new int[]{  16,   8,   8,  16 };
+        int[] insiemeDiC        = new int[]{ 128, 64, 64 };
+        int[] insiemeDiMMLEN    = new int[]{  8,   8, 16 };
         int threadN = 12;
 
         RunnableThreadTester[] listThread = new RunnableThreadTester[threadN];
@@ -38,10 +38,7 @@ public class TesterThread {
             asd.start();
             listThread[i] = asd;
         }
-
     }
-
-
 
     private static class RunnableThreadTester  extends Thread{
 
@@ -50,7 +47,7 @@ public class TesterThread {
         private final int[] c;
         private final int maxNumberOfThread;
 
-        RunnableThreadTester(int[] mmlen, int[] c, int id, int maxNumberOfThread){
+        RunnableThreadTester(int[] c, int[] mmlen, int id, int maxNumberOfThread){
             this.id = id;
             this.mmlen = mmlen;
             this.c = c;
@@ -60,10 +57,10 @@ public class TesterThread {
         @Override
         public void run() {
             String basePath = "test_files/";
-            String[] set = iterateOverTestFiles(basePath);
+//            String[] set = iterateOverTestFiles(basePath);
+            String[] set = {"Internet Explorer Web Browser", "Notepad++", "Opera", "Putty", "FileZilla", "MINGW gcc", "Mozilla Firefox", "AdobeReader", "VLC", "AVG antivirus"};
 
             for(int currentFileIndex = id; currentFileIndex < set.length; currentFileIndex = currentFileIndex + maxNumberOfThread){
-                System.out.println("Thread "+id+" done"+(currentFileIndex/maxNumberOfThread)+ "/"+(set.length/maxNumberOfThread) + "... starting a new one" );
                 String dir = set[currentFileIndex];
                 String testDir = basePath+dir;
 
@@ -78,13 +75,14 @@ public class TesterThread {
                 try {
                     writer = new BufferedWriter(new FileWriter(results, true));
 
+                    writer.newLine();
+                    writer.newLine();
                     writer.write("\tIniziato test globale del file alle: "+printDate());
                     writer.newLine();
                     writer.newLine();
                     writer.flush();
 
                     for(int i = 0; i<c.length; i++) {
-                        System.out.println("Thread "+id+" done"+(i)+ "/"+(c.length) + " on file "+testDir );
                         int cS = c[i];
                         int mmlenS = mmlen[i];
 
@@ -96,24 +94,24 @@ public class TesterThread {
 
                         Encoder.main(new String[]{filenameCompressed, filename7z});
 
-                        NewDecompressor decompressor = new NewDecompressor(cS, mmlenS, filenameReference, filenameCompressed, filenameDecompressed);
-                        if (!decompressor.run()) {
-                            System.out.println("Error while decompressing");
-                            System.exit(1);
-                        }
+//                        NewDecompressor decompressor = new NewDecompressor(cS, mmlenS, filenameReference, filenameCompressed, filenameDecompressed);
+//                        if (!decompressor.run()) {
+//                            System.out.println("Error while decompressing");
+//                            System.exit(1);
+//                        }
 
-                        BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
-                        BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));
-                        boolean equals = true;
-                        String line1, line2;
-                        while (((line1 = pre.readLine()) != null) && ((line2 = post.readLine()) != null)) {
-                            if (!line1.equals(line2)) {
-                                equals = false;
-                                break;
-                            }
-                        }
+//                        BufferedReader pre = new BufferedReader(new FileReader(new File(filenameTarget)));
+//                        BufferedReader post = new BufferedReader(new FileReader(new File(filenameDecompressed)));
+//                        boolean equals = true;
+//                        String line1, line2;
+//                        while (((line1 = pre.readLine()) != null) && ((line2 = post.readLine()) != null)) {
+//                            if (!line1.equals(line2)) {
+//                                equals = false;
+//                                break;
+//                            }
+//                        }
 
-                        if (equals) {
+//                        if (equals) {
                             writer.write("test with c = "+cS+" and mmlen = "+ mmlenS+"\n");
                             String out = getFormattedFileSize(filenameReference);
                             writer.write("reference " + out);
@@ -125,16 +123,18 @@ public class TesterThread {
                             writer.write("7z " + out);
                             writer.write("finito alle: "+printDate());
 
-                            System.out.println("\nFiles are identical!");
-                        } else {
-                            writer.write("ERROR FOR THIS FILE");
-                            System.err.println("\nFiles are NOT identical");
-                        }
+//                        } else {
+//                            writer.write("ERROR FOR THIS FILE");
+//                            System.err.println("\nFiles are NOT identical");
+//                        }
                         writer.newLine();
                         writer.newLine();
                         writer.flush();
+
+                        System.out.println("Thread "+id+" : finito "+dir+" per c="+cS+" e mmlen="+mmlenS);
                     }
 
+                    System.out.println("Thread "+id+" ha terminato");
                     writer.write("\tFinito test globale del file alle: "+printDate());
                     writer.newLine();
                     writer.flush();
